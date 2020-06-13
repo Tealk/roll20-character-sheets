@@ -1,0 +1,76 @@
+.pc.character
+  +sectionheader("Überblick")
+    .flex.syncBottom
+      +generateAttributeArray(ÜberblickFieldCode, Überblick, "Flexitems")
+      +generateAttributeArray(ÜberblickTextboxesFieldCode, ÜberblickTextboxes, "Flexitems")
+  .flex
+    .item
+      +sectionheader("Attribute")
+        +generateAttributeArray(attributesFieldCode, attributes)
+    .item
+      +sectionheader("Berechnete Werte")
+        +generateAttributeArray(calculatedValuesFieldCode, calculatedValues)
+        +generateAttributeArray(bonusValuesFieldCode, bonusValues)
+    .item
+      +sectionheader("Andere Werte")
+        +generateAttributeArray(dynamicValuesFieldCode, dynamicValues)
+        +sectionheader("Regeneration über Nacht",false)
+          +generateAttributeArray(regNachtValuesFieldCode, regNachtValues)
+        +sectionheader("Regeneration durch Meditation(1h)",false)
+          +generateAttributeArray(reg1hValuesFieldCode, reg1hValues)
+        +sectionheader("Diverses",false)
+          +generateAttributeArray(ManuellValuesFieldCode, ManuellValues, "Flexbox")
+.pc.talents
+  .flex
+    +sectionheader("Talente").item
+      .flex
+        each talent in Talente
+          +sectionheader(talent).item
+            +generateAttributeArray(TalenteFieldCode, [talent], "repeating")
+    +sectionheader("Spezialfähigkeiten").item
+      +generateAttributeArray(SpezFields, [SpezSection], "repeating", SpezFieldCode)
+.pc.equip
+  +generateAttributeArray(EquipSummaryFieldCode, [EquipSummary], "Flexbox", EquipSummaryField)
+  +generateAttributeArray(GoldSummaryFieldCode, [GoldSummary], "Flexbox", GoldSummaryFields)
+  .flex
+    +sectionheader("Waffen").item
+      .flex.syncBottom
+        +generateAttributeArray(KampfValuesFieldCode, KampfValues, "Flexitems")
+        +generateAttributeArray(KampfTPValuesFieldCode, KampfTPValues, "Flexitems")
+        +generateAttributeArray(WaffentalentValuesFieldCode, WaffentalentValues, "Flexitems", WaffentalentFields)
+      +generateAttributeArray(weaponFieldCode, [weaponSection], "repeating", weaponFields)
+    +sectionheader("Rüstung/Kleidung").item
+      +generateAttributeArray(armorFieldCode, [armorSection], "repeating", armorFields)
+    +sectionheader("Anderes").item
+      +generateAttributeArray(equipFieldCode, [equipSection], "repeating", equipFields)
+.pc.exp
+  +generateAttributeArray(ExpSummaryFieldCode, [ExpSummary], "Flexbox", ExpSummaryField)
+  .flex
+    +sectionheader("Anwenden").item.anwendbar
+      TODO
+    +sectionheader("Eigene Exp(aus Abenteuern)").item
+      +generateAttributeArray(expFieldCode, [expSection], "repeating", expFields)
+    +sectionheader("Automatische Exp").item
+      +generateAttributeArray(userExpFieldCode, [userExpSection], "repeating", userExpFields)
+    +sectionheader("Steigern").item.steigerbar
+      TODO
+    +sectionheader("Ausgegebene Exp").item
+      +generateAttributeArray(levelUpFieldCode, [levelUpSection], "repeating", levelUpFields)
+.pc.spells
+  .flex
+    +sectionheader("Zauberliste").item
+      +generateAttributeArray(magicFieldCode, [magicSection], "repeating", magicFields)
+    +sectionheader("Psiliste").item
+      +generateAttributeArray(psiFieldCode, [psiSection], "repeating", psiFields)
+.pc.bonus
+  .flex
+    +sectionheader("Bonusliste").item
+      +generateAttributeArray(boniFieldCode, [boniSection], "repeating", boniFields)
+.pc.kampf
+  TODO
+.pc.zaubern
+  TODO
+.pc.addZauber
+  TODO
+.pc.addItemOrSpez
+  TODO

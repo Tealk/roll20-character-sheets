@@ -1,0 +1,245 @@
+mixin sectionheader(label, open=true)
+  //- Creates one of the toggleable headers
+    Parameters
+      label: i18n code for the text appearing on the header
+        (block is inserted if no label is specified)
+  details(open=open)
+    summary(data-i18n=tr+label)=label
+    block
+
+mixin optionList(type)
+  case type
+    when 'T'
+      each name in talentOrigins
+        option(data-i18n-dynamic=tr+name)=name
+
+mixin inputField(name, type="l")
+  //- Creates a editable input field
+    Parameters
+      name: underlying attribute name (without "attr_")
+      type:
+          'l': input type text
+          'h': hidden input
+          'n': input type number
+          't'/'m': input type textbox
+          'c': checkbox
+    Attributes
+      All attributes are passed on to the input.
+  - delete attributes.type;
+  - delete attributes.name;
+  case type
+    when 'l'
+      input(type="text", name=`attr_${name}`, title=`@{${name}}`)&attributes(attributes)
+    when 'n'
+    when '/'
+      input(type="number", name=`attr_${name}`, title=`@{${name}}`, value="0")&attributes(attributes)
+    when 'h'
+      input(type="hidden", name=`attr_${name}`, title=`@{${name}}`)&attributes(attributes)
+    when 'c'
+      input(type="checkbox", name=`attr_${name}`, title=`@{${name}}`)&attributes(attributes)
+    when 'm'
+    when 't'
+      textarea(name=`attr_${name}`, title=`@{${name}}`, cols="30", rows="10")&attributes(attributes)
+    default
+      select(name=`attr_${name}`, title=`@{${name}}`)&attributes(attributes)
+        +optionList(type)
+
+mixin outputField(name, type="i")
+  //- Creates a editable input field
+    Parameters
+      name: underlying attribute name (without "attr_")
+      type:
+          'l': input type text
+          'n': input type number
+          't'/'m': input type textbox
+    Attributes
+      All attributes are passed on to the input.
+  span(name=`attr_${name}`, title=`@{${name}}`)&attributes(attributes)
+
+mixin visibility(name,visibility='a')
+  case visibility
+    when 0
+    when 'n'
+      +inputField(name, 'h')&attributes(attributes)
+    when 1
+    when 'e'
+      span.edit
+        block
+    when 2
+    when 'r'
+      span.edit.display
+        block
+    default
+      span.edit.display.show
+        block
+
+mixin attrField(name, visibility='a', editible='r', type="l")
+  //- Creates a value field
+    Parameters
+      name: underlying attribute name (without "attr_")
+      visibility/editible: set if/when the attribute is visible/editible
+          0/'n': never
+          1/'e': only in editmode
+          2/'r': not in show
+          3/'a': always
+      type:
+          'l': input type text
+          'n': input type number
+          't'/'m': input type textbox
+          'M': Maxwert(dargestellt mit '/' vorangehend, verlikt zu final)
+    block adapted to visibility
+    Attributes
+      All attributes are passed on to the input.
+
+  +visibility(name,visibility)&attributes(attributes)
+    case editible
+      when 0
+      when 'n'
+        +inputField(name, 'h')&attributes(attributes)
+        +outputField(name, type).edit.display.show
+      when 1
+      when 'e'
+        +inputField(name, type)&attributes(attributes).edit
+        +outputField(name, type).display.show
+      when 2
+      when 'r'
+        +inputField(name, type)&attributes(attributes).edit.display
+        +outputField(name, type).show
+      default
+        +inputField(name, type)&attributes(attributes).edit.display.show
+    if type=='/'
+      span="/"
+
+mixin labeledBlock(label)
+  //- Creates a label container that looks like one of the underlined text inputs.
+    block is inserted where the input would normally be
+    Parameters
+      label: [i18n code for the text appearing underneath, default translation]
+    Attributes
+      class is passed on to the containing label
+  label(class=["text-input", attributes.class])
+    block
+    .label(data-i18n=tr+label[0])=label[1]
+
+mixin makeItems(headers, rows)
+  //- Creates a single element
+    Parameters
+      headers: a list(1 to 3) of tupels [id,label,...]
+        id: will be apended to the rownames -> attr_rownameid = name of cell
+        visibility: see attrField
+        editible: see attrField
+        type: class for attrField
+  each attr in rows
+    //- button(type="action", name=`act_${attr}`).invisible-button
+    +labeledBlock(attr).item
+      each header,index in headers
+        +attrField(`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])&attributes(header[4])
+          if index<headers.length-2
+            span="+"
+          else if index<headers.length-1
+            span="="
+
+mixin makeSingleItems(headers, attr)
+  //- Creates a single element for each combination of headers and rows
+    Parameters
+      headers: a list(1 to 3) of tupels [id,label,...]
+        id: will be apended to the rownames -> attr_rownameid = name of cell
+        visibility: see attrField
+        editible: see attrField
+        type: class for attrField
+      row: a single row
+  each header,index in headers
+    +labeledBlock(header[0]).item
+      +attrField(`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])&attributes(header[4])
+
+mixin makeTable(headers, rows)
+  //- Creates a table
+    Parameters
+      headers: a list of tupels [id,label,...]
+        id: will be apended to the rownames -> attr_rownameid = name of cell
+        visibility: see attrField
+        editible: see attrField
+        type: class for attrField
+        additionals: class, ... piped as attributes to the attrField
+  .table
+    .table-heading
+      .table-row
+        .table-head=""
+        each header in headers
+          case editible
+            when 0
+            when 'n'
+              - break
+            when 1
+            when 'e'
+              .table-head.edit(data-i18n=tr+header[0][0])=header[0][1]
+            when 2
+            when 'r'
+              .table-head.edit.display(data-i18n=tr+header[0][0])=header[0][1]
+            default
+              .table-head(data-i18n=tr+header[0][0])=header[0][1]
+    .table-body
+      each attr in rows
+        //- button(type="action", name=`act_${attr[0]}`).invisible-button
+        .table-row
+          .table-item(data-i18n=tr+attr[0])=tr+attr[1]
+          each header in headers
+            .table-item
+              +attrField(`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])&attributes(header[4])
+
+mixin generateAttributeArray(fieldCode, rows, type="Table", fieldNames=fieldCodeAdditions, fieldDefaults=fieldCodeDefaults)
+  //- Visualize a attribute array
+    Parameters
+      fieldCode: fieldcode for the 'rows'
+      rows: the attributes that shall be created
+      type: how the attributes that shall be printed(Table,Flexbox,Flexitems(without the Box),singleItems(a flexbox per row),repeating,...)
+      fieldNames: a list names/additionals that shall be added(attr_rownameFielname)
+      fieldDefaults: the default fieldcodes
+  - var headers = []
+  each val, index in fieldCode
+    - var float=parseFloat(fieldCode[index])
+    if float
+      - var use=fieldDefaults[index]
+    else
+      - var use=fieldCode[index]
+    if fieldCode[index]
+      - var v = use[0]
+      - var e = use[1]
+      - var t = use[2]
+      - headers.push([fieldNames[index],v,e,t,""])
+  if type=="Table"
+    +makeTable(headers, rows)
+  else if type=="Flexbox"
+    .flex.syncBottom
+      +makeItems(headers, rows)
+  else if type=="Flexitems"
+    +makeItems(headers, rows)
+  else if type=="singleItems"
+    each attr in rows
+      .flex.syncBottom
+        +makeSingleItems(headers, attr)
+  else if type=="singleItemsFlexbox"
+    .flex.syncBottom
+      each attr in rows
+        .flex.syncBottom
+          +makeSingleItems(headers, attr)
+  else if type=="repeating"
+    each attr in rows
+      fieldset(class=`repeating_${attr[0]}`)
+        +makeSingleItems(headers, attr)
+
+mixin dropbox(name, label)
+  //- Creates one fake dropbox with hover and radio buttons(https://wiki.roll20.net/CSS_Wizardry#Styling_Select_Dropdowns)
+      with a repeting section called xy
+    Parameters
+      name: underlying attribute name (without "attr_")
+      label: i18n code for the text appearing on the header
+        (block is inserted if no label is specified)
+  .section-toggle-header
+    input(type="checkbox", name=`attr_${name}`, value="1", data-i18n-title="zeigen/verbergen", checked)
+    h1
+      if (label)
+        span(data-i18n=label)
+      else
+        block
+  input.hider(type="hidden", name=`attr_${name}`, value="1")

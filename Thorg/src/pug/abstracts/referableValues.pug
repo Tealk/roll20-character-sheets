@@ -1,0 +1,224 @@
+-
+    //value definition 2.0(only values not arrays): each is a tripple[value,default translation,valuename for js,type of rowbutton see type below]
+    const baseValue=["_base","Grundwert","baseValue"];
+    const levelUp=["_levelup","Steigerungen","levelUp"];
+    const modManuel=["_manuel_bonus","manueller Bonus","modManuel"];
+    const modAuto=["_automatic_bonus","automatischer Bonus","modAuto"];
+    const mod=["_overall_bonus","Gesamtbonus","mod"];
+    const multi=["_multiplier","Multiplikator","multi"];
+    const current=["","aktueller Wert","current"];
+    const max=["_max","maximaler Wert","max"];
+    const spez=["_spez","Spezialisiert?","spez"];
+    const origin=["_origin","Aktiviert?","origin"];
+    const fieldCodeAdditions = [baseValue,levelUp,modManuel,modAuto,multi,current,max  ,mod  ,spez ,origin];
+    const fieldCodeDefaults  = ['een'    ,'enn'  ,'arn'    ,'enm'  ,'enn','ar/'  ,'ann','enm','rrn','rrT' ];
+
+    //Datei aufbau:
+    //  1. Definiere Werte A="A"
+    //  2. Definiere ein Array gleichartiger Werte As=[A]
+    //  3. setze den fieldCode AsFieldCode=[0,0,0,0,0,0,0,...]
+    //  Werte des FieldCode: 
+    //          0           -> deaktiviert
+    //          !=0         -> aktiviert(standard)
+    //          'vet'       -> set visibility to 'v' and editiblity to 'e' and type to t
+    //              type:
+    //                  'n' -> number
+    //                  'm' -> multiline (bonus)
+    //                  'l' -> lineedit(text)
+    //                  't' -> textbox
+    //                  'c' -> checkbox
+    //                  'T' -> talentursprung combobox
+    //                  '/' -> number with trailing '/'
+    //                  'P' -> Probenwurf(Roll)
+    //                  'R' -> Resistenz/Probenwurf(Roll)
+    //                  'S' -> Selector(aktion)
+    //                  'A' -> Ausführen(Roll)
+    //                  'W' -> Wiederherstellen/Regenerieren(Roll)
+    //FieldCode:1   2   3   4   5   6   7   8   9   10   11                     Ending
+    //          |   |   |   |   |   |   |   |   |   talentCombobox              origin
+    //          |   |   |   |   |   |   |   |   Spezialisiert(checkbox)         spez
+    //          |   |   |   |   |   |   |   Voller Bonus(4+5)   (readonly)      mod
+    //          |   |   |   |   |   |   Voller Wert((1+2+4+5)*multi)(readonly)  _max
+    //          |   |   |   |   |   Aktueller Wert(immer edit)
+    //          |   |   |   |   Multiplier(default 1)                           multi
+    //          |   |   |   Auto Bonus   (readonly,edit mode only?)             modAuto
+    //          |   |   Manueller Bonus   (immer edit)                          modManuel
+    //          |   Steigerung   (edit mode only)                               levelUp
+    //          Basiswert   (edit mode only) (e.v. auch readonly)               baseValue
+
+    const Aussehen = ["attr-au","Aussehen","Aussehen"];
+    const Geschicklichkeit = ["attr-ge","Geschicklichkeit","Geschicklichkeit"];
+    const Intuition = ["attr-in","Intuition","Intuition"];
+    const Klugheit = ["attr-kl","Klugheit","Klugheit"];
+    const Konstitution = ["attr-kon","Konstitution","Konstitution"];
+    const Körperkraft = ["attr-kraft","Körperkraft","Körperkraft"];
+    const Magiebegabung = ["attr-mag","Magiebegabung","Magiebegabung"];
+    const Mut = ["attr-mut","Mut","Mut"];
+    const Reaktionswert = ["attr-rw","Reaktionswert","Reaktionswert"];
+    const attributes = [Aussehen,
+                        Geschicklichkeit,
+                        Intuition,
+                        Klugheit,
+                        Konstitution,
+                        Körperkraft,
+                        Magiebegabung,
+                        Mut,
+                        Reaktionswert];
+    const attributesFieldCode = [1,2,3,4,0,0,7,0,8];
+            
+    const BasisKampfwert = ["baka-nah","Basis Kampfwert","BasisKampfwert"];
+    const Schusswaffenbasis = ["baka-fern","Schuß-/Wurfwaffenwaffenbasis","Schusswaffenbasis"];
+    const Rückzug = ["rückzug","Rückzug","Rückzug"];
+    const Rennen = ["rennen","Rennen","Rennen"];
+    const Fliegen = ["fliegen","Fliegen","Fliegen"];
+    const GeistigeStabilität = ["gs","Geistige Stabilität","GeistigeStabilität"];
+    const Magieresistenz = ["res-mag","Magieresistenz","Magieresistenz"];
+    const Psiresistenz = ["res-psi","Psiresistenz","Psiresistenz"];
+    const Initiative = ["initiative","Initiative","Initiative"];
+    const calculatedValues = [BasisKampfwert,
+                              Schusswaffenbasis,
+                              Rückzug,
+                              Rennen,
+                              Fliegen,
+                              GeistigeStabilität,
+                              Magieresistenz,
+                              Psiresistenz,
+                              Initiative];
+    const calculatedValuesFieldCode = [0,0,3,4,5,0,7];
+
+    const GEBonus = ["ge-bonus","GE Bonus","GEBonus"];
+    const LernbonusAllgemein = ["lernbonusallg","Lernbonus(Allgemein)","LernbonusAllgemein"];
+    const LernbonusTalente = ["lernbonustalent","Lernbonus(Talente)","LernbonusTalente"];
+    const LernbonusMagie = ["lernbonusmagie","Lernbonus(Magie)","LernbonusMagie"];
+    const KOBonus = ["ko-bonus","KO Bonus","KOBonus"];
+    const Rüstungsgewöhnung = ["rüstungsgewöhnung","Rüstungsgewöhnung","Rüstungsgewöhnung"];
+    const TragkraftStufe = ["tragkraftstufe","Tragkraftstufe","TragkraftStufe"];
+    const bonusValues = [GEBonus,
+                         LernbonusAllgemein,
+                         LernbonusTalente,
+                         LernbonusMagie,
+                         KOBonus,
+                         Rüstungsgewöhnung,
+                         TragkraftStufe];
+    const bonusValuesFieldCode = [0,0,0,4,0,0,7];
+
+    const Lebenspunkte = ["hp","Lebenspunkte","Lebenspunkte"];
+    const Ausdauer = ["ausdauer","Ausdauer","Ausdauer"];
+    const Essenz = ["essenz","Magische Essenz","Essenz"];
+    const PsiPunkte = ["psipunkte","Psi Punkte","PsiPunkte"];
+    const dynamicValues = [Lebenspunkte,
+                           Ausdauer,
+                           Essenz,
+                           PsiPunkte];
+    const dynamicValuesFieldCode = [1,2,3,4,5,6,7];
+
+    const RegenerationNachtLebenspunkte = ["reg-nacht-hp","Lebenspunkteregeneration über Nacht","RegenerationNachtLebenspunkte"];
+    const RegenerationNachtAusdauer = ["reg-nacht-ausdauer","Ausdauerregeneration über Nacht","RegenerationNachtAusdauer"];
+    const RegenerationNachtEssenz = ["reg-nacht-essenz","Essenzregeneration über Nacht","RegenerationNachtEssenz"];
+    const regNachtValues = [RegenerationNachtLebenspunkte,
+                            RegenerationNachtAusdauer,
+                            RegenerationNachtEssenz];
+    const regNachtValuesFieldCode = [0,0,3,4,5,0,7];
+
+    const Regeneration1hAusdauer = ["reg-1h-ausdauer","Ausdauerregeneration pro Stunde","Regeneration1hAusdauer"];
+    const Regeneration1hEssenz = ["reg-1h-essenz","Essenzregeneration pro Meditationsstunde","Regeneration1hEssenz"];
+    const Regeneration1hPsiPunkte = ["reg-1h-psipunkte","Psiregeneration pro Meditationsstunde","Regeneration1hPsiPunkte"];
+    const reg1hValues = [Regeneration1hAusdauer,
+                         Regeneration1hEssenz,
+                         Regeneration1hPsiPunkte];
+    const reg1hValuesFieldCode = [0,0,3,4,5,0,7];
+
+    const Größe = ["größe","Größe","Größe"];
+    const Gewicht = ["gewicht","Gewicht","Gewicht"];
+    const Karma = ["karma","Karma","Karma"];
+    const Ruf = ["ruf","Ruf","Ruf"];
+    const Infravision = ["infravision","Infravision","Infravision"];
+    const ManuellValues = [Größe,
+                           Gewicht,
+                           Karma,
+                           Ruf,
+                           Infravision];
+    const ManuellValuesFieldCode = [1,0,3,4,5,0,7];
+
+    const AtBonus = ["atbonus","AT-bonus","AtBonus"];
+    const PaBonus = ["pabonus","PA-bonus","PaBonus"];
+    const MAtBonus = ["mat","Meisterattacke","MAtBonus"];
+    const MPaBonus = ["mpa","Meisterparade","MPaBonus"];
+    const AUKosten = ["aukosten","Ausdauerkosten","AUKosten"];
+    const Attacken = ["attacken","Attacken","Attacken"];
+    const AttackenGezielt = ["attackengezielt","AttackenGezielt","AttackenGezielt"];
+    const Reichweite = ["reichweite","Waffenreichweite","ReichweiteF"];
+    const KampfValues = [AtBonus,
+                         PaBonus,
+                         MAtBonus,
+                         MPaBonus,
+                         AUKosten,
+                         Attacken,
+                         AttackenGezielt,
+                         Reichweite];
+    const KampfValuesFieldCode = ['rnn',0,3,4,0,0,7];
+
+    const TP = ["tp","Angriffsschaden","TP"];
+    const KampfTPValues = [TP];
+    const KampfTPValuesFieldCode = ['rnm',0,0,4,0,0,'anm'];
+
+    const Waffentalent = ["waffentalent","Waffentalent","Waffentalent"];
+    const WaffentalentValues = [Waffentalent];
+    const WaffentalentFields = [Waffentalent];
+    const WaffentalentValuesFieldCode = ['rnl'];
+
+    const NahKampfTalente = ["nahkampftalente","Nahkampftalente","NahKampfTalente"];
+    const FernKampfTalente = ["fernkampftalente","Fernkampftalente","FernKampfTalente"];
+    const KampfTalente = ["kampftalente","Spezielle Kampftalente","KampfTalente"];
+    const SozialeTalente = ["sozialetalente","Sozialtalente","SozialeTalente"];
+    const HandwerksTalente = ["handwerkstalente","Handwerkstalente","HandwerksTalente"];
+    const BerufeTalente = ["berufetalente","Berufstalente","BerufeTalente"];
+    const SprachenTalente = ["sprachentalente","Sprachtalente","SprachenTalente"];
+    const AndereTalente = ["anderetalente","Andere Talente","AndereTalente"];
+    const Talente = [NahKampfTalente,
+                     FernKampfTalente,
+                     KampfTalente,
+                     SozialeTalente,
+                     HandwerksTalente,
+                     BerufeTalente,
+                     SprachenTalente,
+                     AndereTalente];
+    const TalenteFieldCode = [1,2,3,4,0,0,7,8,9,10];
+
+    const ExpSummary = ["exp","Erfahrungspunkte","ExpSummary"];
+    const ExpSummarySum = ["_max","Insgesamt","ExpSummarySum"];
+    const ExpSummaryInvested = ["","Ausgegeben","ExpSummaryInvested"];
+    const ExpSummaryOpen = ["_rest","Noch verteilbar","ExpSummaryOpen"];
+    const ExpSummaryField = [ExpSummarySum,ExpSummaryInvested,ExpSummaryOpen]
+    const ExpSummaryFieldCode = ['ann','ann','ann'];
+
+    const EquipSummary = ["traglast","Traglast","EquipSummary"];
+    const EquipSummarySum = ["belastung","Belastung in Kg","EquipSummarySum"];
+    const EquipSummaryLevel = ["belastungsstufe","Belastungsstufe","EquipSummaryLevel"];
+    const EquipSummaryMalus = ["belastungsmalus","Belastungsmalus","EquipSummaryMalus"];
+    const EquipSummaryField = [EquipSummary,EquipSummaryLevel,EquipSummaryMalus]
+    const EquipSummaryFieldCode = ['ann','enn','ann'];
+
+    const allListsButTalents = attributes.concat(calculatedValues,
+                                                 bonusValues,
+                                                 dynamicValues,
+                                                 regNachtValues,
+                                                 reg1hValues,
+                                                 ManuellValues,
+                                                 KampfNahValues,
+                                                 KampfFernValues,
+                                                 KampfTPValues)
+    
+    const inputsForModdingFieldCode = [0,0,3,0,0,0,7]
+
+    const valuesLevelUpFields = attributes.concat(dynamicValues)
+    const valuesWithAllBonusAndSumupValue = valuesForModding
+    const valuesWithAllBonusAndSumupValueNonNumberBonus = KampfTPValues
+    const valuesWithAllBonusAndSumupValueNumberBonus = attributes.concat(calculatedValues,
+                                                                         bonusValues,
+                                                                         dynamicValues,
+                                                                         regNachtValues,
+                                                                         reg1hValues,
+                                                                         ManuellValues,
+                                                                         KampfNahValues,
+                                                                         KampfFernValues)

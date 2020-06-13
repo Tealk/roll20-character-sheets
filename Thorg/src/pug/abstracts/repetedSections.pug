@@ -1,0 +1,150 @@
+-
+    const tr="TR:";
+
+
+    //repeating sections => all attributes are named: sectionname+fieldname to omit duplikates
+    const nameingField=["name","Verknüpft zu","nameingField"];
+    const nameField=["name","Bezeichnung","nameingField"];
+    const EPKosten=["epkosten","EP Kosten","EPKosten"];
+    const Description=["description","Beschreibung","Description"];
+
+    //levelpu
+    const levelUpSection=["levelup","Steigerungen","levelUpSection"];
+
+    const levelUpValue=["verbesserung","Steigerungswert","levelUpValue"];
+    const levelUpFields=[nameingField,
+                         levelUpValue,
+                         EPKosten];
+    const levelUpFieldCode = ['ael','ren','aen'];
+
+    //boni
+    const boniSection=["boni","Boni/Berechnungen","boniSection"];
+
+    const boniOrigin=["ursprung","Kommt von","boniOrigin"];
+    const boniActive=["aktiv","aktiv","boniActive"];
+    const boniText=["bonustext","Berechnung","boniText"];
+    const boniValue=["bonushöhe","aktueller Wert","boniValue"];
+    const boniFields=[nameingField,
+                      boniOrigin,
+                      boniActive,
+                      boniText,
+                      boniValue];
+    const boniFieldCode = ['ael','rel','ael','eet','aem'];
+
+    //Exp
+    const expSection=["autoexp","Automatische Erfahrungspunkte","expSection"];
+
+    const expNumber=["menge","Anzahl der Anwendungen","expNumber"];
+    const expBase=["basisexp","Basisexp(ab der 3. Anwendung)","expBase"];
+    const expResult=["summe","Verdiente Erfahrungspunkte","expResult"];
+    const expFields=[nameingField,
+                     expNumber,
+                     expBase,
+                     expResult];
+    const expFieldCode = ['ael','aen','een','ren'];
+
+    //Exp2
+    const userExpSection=["userexp","Manuelle Erfahrungspunkte","userExpSection"];
+
+    const userExpResult=["summe","Verdiente Erfahrungspunkte","userExpResult"];
+    const userExpFields=[nameField,
+                         expResult];
+    const userExpFieldCode = ['aal','aan'];
+
+    //specials
+    const SpezSection=["specials","Spezielle Fähigkeiten","SpezSection"];
+
+    const SpezCount=["","übrige Anwendungen","SpezCount"];
+    const SpezMax=["_max","Maximale Anwendungen","SpezMax"];
+
+    const SpezFields=[nameField,
+                      SpezCount,
+                      SpezMax,
+                      Description];
+    const SpezFieldCode = ['ael','ar/','aen','aet'];
+
+    //=> ?!PSI und Zauber später!?
+    //PSI: Name;RW;WD(zahlen?);ZA(Zahlen!);Wirkung;Probe(Zahlen);Psi-Kosten(Zahlen!);Kosten;Rettungswurf;Vorraussetzung(nur im Mancer relevant)?
+    //	=> Wirkung auswerten?
+    //Zauber: +RW zahlen;+Skalierungsoptionen(spontan, dauerhaft,anwendungsgetriggert)
+    //=> Syntaktische Schrift? ('{Attr}' durch Attr-wert ersetzen, rechnungen auswerten? -> im Mancer über Würfeln('[1+1]'=2), )
+    //		=> '/roll...\' wird als würfelque gemacht
+    //		=> '$<...>$' unveränderlicher wert
+    //		=> andere Zahlen können skaliert werden.
+    //		=> Testbutton bei erstellung
+    //		=> repeat section/attribute helper
+
+    //magic
+    const magicSection=["magic","Zauberbuch","magicSection"];
+
+    const magicFields=[nameField];
+    const magicFieldCode = ['ael'];
+
+    //psi
+    const psiSection=["psi","Psikräfte","psiSection"];
+
+    const psiFields=[nameField];
+    const psiFieldCode = ['ael'];
+
+    //equip
+    const equipSection=["equip","Ausrüstung","equipSection"];
+
+    const equipNumber=["menge","Menge","equipNumber"];
+    const equipBase=["gewicht","Gewicht pro Einheit","equipBase"];
+    const equipResult=["summe","Gesamtgewicht","equipResult"];
+    const equipLocation=["aufbewahrungsort","Aufbewahrungsort","equipLocation"];
+    const equipLocation2=["aufbewahrungsort2","Aufbewahrungsort(forts.)","equipLocation2"];
+    const equipFields=[nameField,
+                       equipNumber,
+                       Description,
+                       equipBase,
+                       equipResult,
+                       equipLocation,
+                       equipLocation2];
+    const equipFieldCode = ['ael','arn','aet','ren','aen','aan','aal'];
+    //armor
+    const armorSection=["armor","Rüstungen","armorSection"];
+    
+    const RSValue=["rs","RS","RSValue"];
+    const RKValue=["rk","RK","RKValue"];
+    const armorMalus=["malus","Gesamtmalus","armorMalus"];
+    const armorType=["type","Type","armorType"]; // Rüstung oder Kleidung
+    const armorFields=[nameField,
+                       Description,
+                       equipResult,
+                       equipLocation,
+                       equipLocation2,
+                       RSValue,
+                       RKValue,
+                       armorMalus,
+                       armorType];
+    const armorFieldCode = ['ael','aet','aen','aan','aal','aen','aen','aen','aen'];
+
+    //weapon
+    const weaponSection=["weapon","Waffen","weaponSection"];
+    
+    const weaponTalent=["talent","zugehöriges Talent","weaponTalent"];
+    const weaponFields=[nameField,
+                       Description,
+                       equipResult,
+                       equipLocation,
+                       equipLocation2,
+                       RSValue,
+                       RKValue,
+                       armorMalus,
+                       weaponTalent];
+    const weaponFieldCode = ['ael','aet','aen','aan','aal','aen','aen','aen','aen'];
+    //	Geld+Proviant?
+    //	Allgemeine Liste:
+    //		-name/Description;anzahl;gewicht pro einheit;aufbewahrungsort(dropbox: am Körper, Behälter 1..X, Tier 1..X, sonstiges(zu Hause))
+    //		-BONUS?!?!
+    //		-v2: aufbewahrungsort=dropbox(Körper(aktiv),Behälter(getragen),Behälter(dabei),Behälter(nicht zugreifbar))+description(string)
+    //	einzelne Listen(nur Anzeige) oder Filter um inhalt der Aufbewahrungsort listen zu sehen...
+    //		->edit feld != display feld
+    //		-> display feld mit dropbox und e.v. input feld
+    //			-> sammelt alles was dem gewählten Aufbewahrungsort entspricht
+    //		-> als rollbutton realsierbar...??
+    //	Spezielles Equipment: Rüstung/Waffen(erweiterte/andere Attribute)?!
+    //		Waffen: RW, TP,TP+,RK,Tallent,AT,PA,AU-Kosten,MAt,MPa(nur 1 Aktiv?!)
+    //		Rüstung: Schutz+Behinderung+belegt Rüstungsslots(nur 1 Rüstung pro Slot?)
+
