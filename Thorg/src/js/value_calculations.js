@@ -1,23 +1,31 @@
+const getRepSectionFieldString = (section, id,field) => `repeating_${section}_${id}_${section}${field}`; 
 /* ===== PARAMETERS ==========
-destination = the name of the attribute that stores the total quantity
 section = name of repeating fieldset, without the repeating_
 fields = the name of the attribute field to be summed
       can be a single attribute: 'weight'
       or an array of attributes: ['weight','number','equipped']
-multiplier (optional) = a multiplier to the entire fieldset total. For instance, if summing coins of weight 0.02, might want to multiply the final total by 0.02.
+evaluateFn = a function that takes an array of objects(v[rep.Section lines]{id: lineid, fields:fieldsvalue}) and evaluates the rep section fields.
 */
-const repeatingSum = (destination, section, fields, multiplier = 1) => {
+const getSectionFields = (section, fields, evaluateFn) => {
     if (!Array.isArray(fields)) fields = [fields];
     getSectionIDs(`repeating_${section}`, idArray => {
-        const attrArray = idArray.reduce( (m,id) => [...m, ...(fields.map(field => `repeating_${section}_${id}_${section}${field}`))],[]);
+        const attrArray = idArray.reduce( (m,id) => [...m, ...(fields.map(field => getRepSectionFieldString(section,id,field)))],[]);
         getAttrs(attrArray, v => {
-            console.log("===== values of v: "+ JSON.stringify(v) +" =====");
-                 // getValue: if not a number, returns 1 if it is 'on' (checkbox), otherwise returns 0..
-            const getValue = (section, id,field) => parseFloat(v[`repeating_${section}_${id}_${section}${field}`]) || (v[`repeating_${section}_${id}_${section}${field}`] == "on" ? 1 : 0); 
-            const sumTotal = idArray.reduce((total, id) => total + fields.reduce((subtotal,field) => subtotal * getValue(section, id,field),1),0);
-            setAttrs({[destination]: sumTotal * multiplier});    
+            const getArrayValue = id => {
+                var result={"id":id};
+                for (field of fields){
+                    result[field]=getRepSectionFieldString(section,id,field);
+                }
+                return result;
+            }; 
+            const allValues = idArray.map(getArrayValue);
+            evaluateFn(allValues);
         });
     });
+};
+const filterNames = (allValues, nameField, searchedName) => {
+    const filterFn = (value) => value[nameField]==searchedName;
+    return allValues.filter(filterFn);
 };
 
 function finalizeBonis(bonus, numberOnly) {
@@ -74,42 +82,30 @@ function fuse2Bonis(bonus1, bonus2, numberOnly) {
     return result.concat(bonus2AsList).join('\n');
 }
 
-const repeatingSumBoni = (destination, section, attributeName, field, numberOnly, disblerField=0) => {
-    fields = [nameingField,field];
-    if (disblerField){
-        fields.push(disblerField)
-    }
-    getSectionIDs(`repeating_${section}`, idArray => {
-        const attrArray = idArray.reduce( (m,id) => [...m, ...(fields.map(field => `repeating_${section}_${id}_${section}${field}`))],[]);
-        getAttrs(attrArray, v => {
-            const reduceFn = (result, id) => {
-                if ((v[`repeating_${section}_${id}_${nameingField}`]==attributeName)&&
-                    ((!disblerField)||(v[`repeating_${section}_${id}_${section}${disblerField}`]))){
-                        return fuse2Bonis(result, v[`repeating_${section}_${id}_${section}${field}`],numberOnly);
-                } else {
-                    return result                    
-                }
-            }
-            const finalResult = idArray.reduce(reduceFn,"0");
-            setAttrs({[destination]: sumTotal * multiplier});    
-        });
+const calcLevelUp = (attributes) => {
+    if (!Array.isArray(attributes)) attributes = [attributes];
+    getSectionFields(levelUpSection, [nameingField, levelUpValue], (allValues) => {
+        var result = {};
+        for (attribute of attributes) {
+            result[attribute+levelUp] = filterNames(allValues, nameingField, attribute).reduce((total, values) => total + parseFloat(values[levelUpValue]),0);
+        }
+        setAttrs(result);
     });
 };
 
-const calcLevelUp = (attribute) => {
-    repeatingSumBoni(attribute+levelUp, levelUpSection, attribute, levelUpValue, 1);
-};
-const calcRealValue = (attribute) => {
-    fields = [attribute+baseValue,attribute+levelUp];
-    getAttrs(fields, function(values) {
-        setAttrs({
-            [attribute+value]: parseFloat(values[fields[0]])+ parseFloat(values[fields[1]])
-        });
+const calcModAutoValue = (attributes, numberOnly=0) => {
+    if (!Array.isArray(attributes)) attributes = [attributes];
+    getSectionFields(boniSection, [nameingField, boniValue, boniActive], (allValues) => {
+        var result = {};
+        for (attribute of attributes) {
+            const filterFn = (value) => (value[nameingField]==attribute && value[boniActive]);
+            const filteredValues = allValues.filter(filterFn);
+            result[attribute+modAuto] = filteredValues.reduce((total, values) => fuse2Bonis(total, values[boniValue],numberOnly));
+        }
+        setAttrs(result);
     });
 };
-const calcModAutoValue = (attribute, numberOnly=0) => {
-    repeatingSumBoni(attribute+modAuto, boniSection, attribute, boniValue, numberOnly, boniActive);
-};
+
 const calcFullModValue = (attribute, numberOnly=0) => {
     fields = [attribute+modAuto,attribute+modManuel];
     getAttrs(fields, function(values) {
@@ -118,6 +114,7 @@ const calcFullModValue = (attribute, numberOnly=0) => {
         });
     });
 };
+
 const calcFullValue = (attribute, numberOnly=1) => {
     fields = [attribute+mod,attribute+value];
     getAttrs(fields, function(values) {
@@ -126,6 +123,40 @@ const calcFullValue = (attribute, numberOnly=1) => {
         });
     });
 };
+
+const calcEquip = () => {
+    const test = [EquipSummarySum,EquipSummaryLevel,EquipSummaryMalus]
+    //const level siehe bonstabelle
+    //EquipSummarySum = waffen+Rüstung+anderes mit aktiv(außer Rüstung) oder am Körper
+    //EquipSummaryMalus = Lastenstufe-Tragkraftstufe-3 in [0,5,10,25,50,99999]
+};
+const calcExp = () => {
+    getSectionFields(expSection, [expNumber, expBase, expResult], (allValuesAuto) => {
+        //var result = {};
+        //result[getRepSectionFieldString(expSection,ID,expResult)] = allValuesAuto.reduce((total, values) => total + parseFloat(values[1]),0);
+        const expsTallent = [120, 120+60, 30];
+        const expsMagic = [250, 250+150, 50];
+        const getAutoExp = (number, exps) => (number>=7)?exps[1]+5*exps[2]:(number>=2)?exps[1]+exps[2]*(number-2):(number==1)?exps[0]:0;
+        //TODO: value check of expBase
+        var autoExpSums = 0;
+        var result = {};
+        for (values of allValuesAuto) {
+            var current = getAutoExp(parseFloat(values[expNumber]),values[expBase]?expsTallent:expsMagic);
+            autoExpSums += current;
+            result[getRepSectionFieldString(expSection, values.id, expResult)] = current;
+        }
+        getSectionFields(userExpSection, [expResult], (allValuesManuell) => {
+            const manuelExpSum = allValuesManuell.reduce((total, values) => total + parseFloat(values[expResult]),0);
+            result[ExpSummarySum] = manuelExpSum+autoExpSum;
+            getSectionFields(levelUpSection, [EPKosten], (allValuesLevelUp) => {
+                result[ExpSummaryInvested] = allValuesLevelUp.reduce((total, values) => total + parseFloat(values[EPKosten]),0);
+                result[ExpSummaryOpen] = result[ExpSummarySum] - result[ExpSummaryInvested];
+                setAttrs(result);
+            });
+        });
+    });
+};
+
 //Operatoren: +,-,*,/,max,min,>,<
 const evalOneOperation = (first, second, operation) => {
     switch (operation) {
@@ -214,11 +245,14 @@ const evalBonusText = (destination,text,active,changeingValue) => {
         }
     });
 };
-function onlyUnique(value, index, self) { 
-    return self.indexOf(value) === index;
-}
-const getAttributesWithChangedBoni = (originalText,newText="") => {
-    var attributes = originalText.match(/{[^}]*}/g);
-    attributes.concat(newText.match(/{[^}]*}/g))
-    return attributes.filter( onlyUnique ).map((v) => v.substring(1,id.length-1));
+
+const calculateChangesForAttribute = (changedAttribute) => {
+    getSectionFields(boniSection, [nameingField, boniActive, boniText], (allValues) => {
+        const filterFn = (value) => (value[boniText].search("{"+changedAttribute+"}") != -1);
+        var filtered = allValues.filter(filterFn);
+        for (v of filtered){
+            evalBonusText(getRepSectionFieldString(boniSection, v.id, boniValue), value[boniText], value[boniActive], value[nameingField]);
+        }
+    });
 };
+

@@ -4,16 +4,19 @@ mixin sectionheader(label, open=true)
       label: i18n code for the text appearing on the header
         (block is inserted if no label is specified)
   details(open=open)
-    summary(data-i18n=tr+label)=label
+    summary=label
     block
 
 mixin optionList(type)
   case type
     when 'T'
       each name in talentOrigins
-        option(data-i18n-dynamic=tr+name)=name
+        option=name
+    when 'o'
+      each name in aufbewahrungsorte
+        option=name
 
-mixin inputField(name, type="l")
+mixin inputField(name, type="l", rollValueAddition=max)
   //- Creates a editable input field
     Parameters
       name: underlying attribute name (without "attr_")
@@ -23,6 +26,16 @@ mixin inputField(name, type="l")
           'n': input type number
           't'/'m': input type textbox
           'c': checkbox
+          'P': Probenwurf(Roll)
+          'R': Resistenz/Probenwurf(Roll)
+          'S': Steigerbar
+          'U': Steigerbar+Nutzbar
+          'F': Steigerbar+Nutzbar+EPgenerator
+          'E': EPgenerator
+          'A': Ausführen(Roll)
+          'N': Wiederherstellen/Regenerieren(Roll) Nacht
+          'M': Wiederherstellen/Regenerieren(Roll) 1h
+          'I': Initiative
     Attributes
       All attributes are passed on to the input.
   - delete attributes.type;
@@ -40,6 +53,23 @@ mixin inputField(name, type="l")
     when 'm'
     when 't'
       textarea(name=`attr_${name}`, title=`@{${name}}`, cols="30", rows="10")&attributes(attributes)
+    when 'S'
+    when 'U'
+    when 'F'
+    when 'E'
+      button(type="action", name=`act_${name}`)
+    when 'P'
+      button(type="roll", name=`roll_${name}`, value=`Rolle ${name} um ?{Erschwernis|0} übrige Punkte: [[@{${name}${rollValueAddition}}-?{Erschwernis} - (1d100cs1cf>[[1+@{${name}${rollValueAddition}-?{Erschwernis}}]]cf100)]]`)
+    when 'R'
+      button(type="roll", name=`roll_${name}`, value=`?{Was?|Gegenprobe, Rolle ${name} [[(1d100<@{${name}${rollValueAddition}}cs1cf>[[1+@{${name}${rollValueAddition}}]]cf100)]] Erfolge|Schadensreduktion, Schaden wurde durch ${name} von ?{Schaden} auf [[?{Schaden}*@{${name}${rollValueAddition}}/100]] reduziert.}`)
+    when 'A'
+      button(type="roll", name=`roll_${name}`, value="/me insert use spez/Item Rolling here")
+    when 'N'
+      button(type="roll", name=`roll_${name}`, value="/me insert Reg over night Rolling here")
+    when 'M'
+      button(type="roll", name=`roll_${name}`, value="/me insert Reg with meditation Rolling here")
+    when 'I'
+      button(type="roll", name=`roll_${name}`, value="/me insert initiative Rolling here")
     default
       select(name=`attr_${name}`, title=`@{${name}}`)&attributes(attributes)
         +optionList(type)
@@ -63,14 +93,14 @@ mixin visibility(name,visibility='a')
       +inputField(name, 'h')&attributes(attributes)
     when 1
     when 'e'
-      span.edit
+      span.sheet-edit
         block
     when 2
     when 'r'
-      span.edit.display
+      span.sheet-edit.sheet-display
         block
     default
-      span.edit.display.show
+      span.sheet-edit.sheet-display.sheet-show
         block
 
 mixin attrField(name, visibility='a', editible='r', type="l")
@@ -96,17 +126,17 @@ mixin attrField(name, visibility='a', editible='r', type="l")
       when 0
       when 'n'
         +inputField(name, 'h')&attributes(attributes)
-        +outputField(name, type).edit.display.show
+        +outputField(name, type).sheet-edit.sheet-display.sheet-show
       when 1
       when 'e'
-        +inputField(name, type)&attributes(attributes).edit
-        +outputField(name, type).display.show
+        +inputField(name, type)&attributes(attributes).sheet-edit
+        +outputField(name, type).sheet-display.sheet-show
       when 2
       when 'r'
-        +inputField(name, type)&attributes(attributes).edit.display
-        +outputField(name, type).show
+        +inputField(name, type)&attributes(attributes).sheet-edit.sheet-display
+        +outputField(name, type).sheet-show
       default
-        +inputField(name, type)&attributes(attributes).edit.display.show
+        +inputField(name, type)&attributes(attributes).sheet-edit.sheet-display.sheet-show
     if type=='/'
       span="/"
 
@@ -119,7 +149,7 @@ mixin labeledBlock(label)
       class is passed on to the containing label
   label(class=["text-input", attributes.class])
     block
-    .label(data-i18n=tr+label[0])=label[1]
+    .sheet-label=label[1]
 
 mixin makeItems(headers, rows)
   //- Creates a single element
@@ -130,8 +160,9 @@ mixin makeItems(headers, rows)
         editible: see attrField
         type: class for attrField
   each attr in rows
-    //- button(type="action", name=`act_${attr}`).invisible-button
-    +labeledBlock(attr).item
+    if attr.length>3
+      +inputField(attr[0],attr[3]).sheet-invisible-button
+    +labeledBlock(attr).sheet-item
       each header,index in headers
         +attrField(`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])&attributes(header[4])
           if index<headers.length-2
@@ -149,7 +180,7 @@ mixin makeSingleItems(headers, attr)
         type: class for attrField
       row: a single row
   each header,index in headers
-    +labeledBlock(header[0]).item
+    +labeledBlock(header[0]).sheet-item
       +attrField(`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])&attributes(header[4])
 
 mixin makeTable(headers, rows)
@@ -161,10 +192,10 @@ mixin makeTable(headers, rows)
         editible: see attrField
         type: class for attrField
         additionals: class, ... piped as attributes to the attrField
-  .table
-    .table-heading
-      .table-row
-        .table-head=""
+  .sheet-table
+    .sheet-table-heading
+      .sheet-table-row
+        .sheet-table-head=""
         each header in headers
           case editible
             when 0
@@ -172,20 +203,24 @@ mixin makeTable(headers, rows)
               - break
             when 1
             when 'e'
-              .table-head.edit(data-i18n=tr+header[0][0])=header[0][1]
+              .sheet-table-head.sheet-edit-attr=header[0][1]
             when 2
             when 'r'
-              .table-head.edit.display(data-i18n=tr+header[0][0])=header[0][1]
+              .sheet-table-head.sheet-edit.sheet-display=header[0][1]
             default
-              .table-head(data-i18n=tr+header[0][0])=header[0][1]
-    .table-body
+              .sheet-table-head=header[0][1]
+    .sheet-table-body
       each attr in rows
-        //- button(type="action", name=`act_${attr[0]}`).invisible-button
-        .table-row
-          .table-item(data-i18n=tr+attr[0])=tr+attr[1]
+        if attr.length>3
+          +inputField(attr[0],attr[3]).sheet-invisible-button
+        .sheet-table-row
+          .sheet-table-item=attr[1]
           each header in headers
-            .table-item
+            .sheet-table-item
               +attrField(`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])&attributes(header[4])
+
+mixin addToJsVars(attr,header)
+  - a=b
 
 mixin generateAttributeArray(fieldCode, rows, type="Table", fieldNames=fieldCodeAdditions, fieldDefaults=fieldCodeDefaults)
   //- Visualize a attribute array
@@ -207,39 +242,53 @@ mixin generateAttributeArray(fieldCode, rows, type="Table", fieldNames=fieldCode
       - var e = use[1]
       - var t = use[2]
       - headers.push([fieldNames[index],v,e,t,""])
-  if type=="Table"
-    +makeTable(headers, rows)
-  else if type=="Flexbox"
-    .flex.syncBottom
-      +makeItems(headers, rows)
-  else if type=="Flexitems"
-    +makeItems(headers, rows)
-  else if type=="singleItems"
-    each attr in rows
+  case type
+    when "Table"
+      +makeTable(headers, rows)
+    when "Flexbox"
       .flex.syncBottom
-        +makeSingleItems(headers, attr)
-  else if type=="singleItemsFlexbox"
-    .flex.syncBottom
+        +makeItems(headers, rows)
+    when "Flexitems"
+      +makeItems(headers, rows)
+    when "singleItems"
       each attr in rows
         .flex.syncBottom
           +makeSingleItems(headers, attr)
-  else if type=="repeating"
-    each attr in rows
-      fieldset(class=`repeating_${attr[0]}`)
-        +makeSingleItems(headers, attr)
+    when "singleItemsFlexbox"
+      .flex.syncBottom
+        each attr in rows
+          .flex.syncBottom
+            +makeSingleItems(headers, attr)
+    when "repeating"
+      each attr in rows
+        fieldset(class=`repeating_${attr[0]}`)
+          +makeSingleItems(headers, attr)
 
-mixin dropbox(name, label)
-  //- Creates one fake dropbox with hover and radio buttons(https://wiki.roll20.net/CSS_Wizardry#Styling_Select_Dropdowns)
-      with a repeting section called xy
-    Parameters
-      name: underlying attribute name (without "attr_")
-      label: i18n code for the text appearing on the header
-        (block is inserted if no label is specified)
-  .section-toggle-header
-    input(type="checkbox", name=`attr_${name}`, value="1", data-i18n-title="zeigen/verbergen", checked)
-    h1
-      if (label)
-        span(data-i18n=label)
-      else
-        block
-  input.hider(type="hidden", name=`attr_${name}`, value="1")
+mixin valueToJs(variable)
+  | 
+  | const 
+  != variable[2]
+  | = "
+  != variable[0]
+  |"
+mixin fullArrayToJs(variables,arrayNameInJs)
+  - var myList=[]
+  each variable in variables
+    +valueToJs(variable)
+    -myList.push(variable[2])
+  | 
+  | const 
+  != arrayNameInJs
+  | = [
+  != myList
+  |]
+mixin plainArrayToJs(variables,arrayNameInJs)
+  - var myList=[]
+  each variable in variables
+    -myList.push(`"${variable[0]}"`)
+  | 
+  | const 
+  != arrayNameInJs
+  | = [
+  != myList
+  |]

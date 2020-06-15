@@ -5,8 +5,6 @@ function getRow(eventInfo,sectionname) {
     return res+sectionname;
 }
 
-
-
 valuesLevelUpFields.forEach(function (stat) {
     on("change:" + stat+baseValue+" change:"+stat+levelUp , () => calcRealValue(stat));
 });

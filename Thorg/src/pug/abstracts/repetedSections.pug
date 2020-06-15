@@ -29,7 +29,7 @@
                       boniActive,
                       boniText,
                       boniValue];
-    const boniFieldCode = ['ael','rel','ael','eet','aem'];
+    const boniFieldCode = ['rel','rel','rel','eet','rem'];
 
     //Exp
     const expSection=["autoexp","Automatische Erfahrungspunkte","expSection"];
@@ -52,7 +52,7 @@
     const userExpFieldCode = ['aal','aan'];
 
     //specials
-    const SpezSection=["specials","Spezielle Fähigkeiten","SpezSection"];
+    const SpezSection=["specials","Spezielle Fähigkeiten","SpezSection","A"];
 
     const SpezCount=["","übrige Anwendungen","SpezCount"];
     const SpezMax=["_max","Maximale Anwendungen","SpezMax"];
@@ -87,7 +87,7 @@
     const psiFieldCode = ['ael'];
 
     //equip
-    const equipSection=["equip","Ausrüstung","equipSection"];
+    const equipSection=["equip","Ausrüstung","equipSection","A"];
 
     const equipNumber=["menge","Menge","equipNumber"];
     const equipBase=["gewicht","Gewicht pro Einheit","equipBase"];
@@ -97,11 +97,13 @@
     const equipFields=[nameField,
                        equipNumber,
                        Description,
+                       SpezCount,
+                       SpezMax,
                        equipBase,
                        equipResult,
                        equipLocation,
                        equipLocation2];
-    const equipFieldCode = ['ael','arn','aet','ren','aen','aan','aal'];
+    const equipFieldCode = ['ael','arn','aet','ar/','aen','ren','aen','aao','aal'];
     //armor
     const armorSection=["armor","Rüstungen","armorSection"];
     
@@ -118,7 +120,7 @@
                        RKValue,
                        armorMalus,
                        armorType];
-    const armorFieldCode = ['ael','aet','aen','aan','aal','aen','aen','aen','aen'];
+    const armorFieldCode = ['ael','aet','aen','aao','aal','aen','aen','aen','aen'];
 
     //weapon
     const weaponSection=["weapon","Waffen","weaponSection"];
@@ -133,7 +135,7 @@
                        RKValue,
                        armorMalus,
                        weaponTalent];
-    const weaponFieldCode = ['ael','aet','aen','aan','aal','aen','aen','aen','aen'];
+    const weaponFieldCode = ['ael','aet','aen','aao','aal','aen','aen','aen','aen'];
     //	Geld+Proviant?
     //	Allgemeine Liste:
     //		-name/Description;anzahl;gewicht pro einheit;aufbewahrungsort(dropbox: am Körper, Behälter 1..X, Tier 1..X, sonstiges(zu Hause))
