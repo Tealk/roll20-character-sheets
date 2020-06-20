@@ -3,8 +3,9 @@ mixin sectionheader(label, open=true)
     Parameters
       label: i18n code for the text appearing on the header
         (block is inserted if no label is specified)
-  details(open=open)
-    summary=label
+  input(type="checkbox", class="sheet-toggle-show", checked=open)
+  span=label
+  div(class="sheet-body")
     block
 
 mixin optionList(type)
@@ -120,7 +121,6 @@ mixin attrField(name, visibility='a', editible='r', type="l")
     block adapted to visibility
     Attributes
       All attributes are passed on to the input.
-
   +visibility(name,visibility)&attributes(attributes)
     case editible
       when 0
@@ -139,6 +139,7 @@ mixin attrField(name, visibility='a', editible='r', type="l")
         +inputField(name, type)&attributes(attributes).sheet-edit.sheet-display.sheet-show
     if type=='/'
       span="/"
+    block
 
 mixin labeledBlock(label)
   //- Creates a label container that looks like one of the underlined text inputs.
@@ -147,7 +148,7 @@ mixin labeledBlock(label)
       label: [i18n code for the text appearing underneath, default translation]
     Attributes
       class is passed on to the containing label
-  label(class=["text-input", attributes.class])
+  label(class=["sheet-text-input", attributes.class])
     block
     .sheet-label=label[1]
 
@@ -162,13 +163,13 @@ mixin makeItems(headers, rows)
   each attr in rows
     if attr.length>3
       +inputField(attr[0],attr[3]).sheet-invisible-button
-    +labeledBlock(attr).sheet-item
-      each header,index in headers
-        +attrField(`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])&attributes(header[4])
-          if index<headers.length-2
-            span="+"
-          else if index<headers.length-1
-            span="="
+    +labeledBlock(attr).sheet-item.sheet-line
+        each header,index in headers
+          +attrField(`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])
+            //-if index<headers.length-2
+            //-  span="+"
+            //-else if index<headers.length-1
+            //-  span="="
 
 mixin makeSingleItems(headers, attr)
   //- Creates a single element for each combination of headers and rows
@@ -197,13 +198,13 @@ mixin makeTable(headers, rows)
       .sheet-table-row
         .sheet-table-head=""
         each header in headers
-          case editible
+          case header[1]
             when 0
             when 'n'
               - break
             when 1
             when 'e'
-              .sheet-table-head.sheet-edit-attr=header[0][1]
+              .sheet-table-head.sheet-edit=header[0][1]
             when 2
             when 'r'
               .sheet-table-head.sheet-edit.sheet-display=header[0][1]
@@ -219,9 +220,6 @@ mixin makeTable(headers, rows)
             .sheet-table-item
               +attrField(`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])&attributes(header[4])
 
-mixin addToJsVars(attr,header)
-  - a=b
-
 mixin generateAttributeArray(fieldCode, rows, type="Table", fieldNames=fieldCodeAdditions, fieldDefaults=fieldCodeDefaults)
   //- Visualize a attribute array
     Parameters
@@ -231,6 +229,7 @@ mixin generateAttributeArray(fieldCode, rows, type="Table", fieldNames=fieldCode
       fieldNames: a list names/additionals that shall be added(attr_rownameFielname)
       fieldDefaults: the default fieldcodes
   - var headers = []
+  - var indexes = []
   each val, index in fieldCode
     - var float=parseFloat(fieldCode[index])
     if float
@@ -242,23 +241,50 @@ mixin generateAttributeArray(fieldCode, rows, type="Table", fieldNames=fieldCode
       - var e = use[1]
       - var t = use[2]
       - headers.push([fieldNames[index],v,e,t,""])
+      - indexes.push(index)
+  - var currentType=[]
+  if fieldNames==fieldCodeAdditions
+    if indexes[0]==0 & indexes[1]==1 & indexes[2]==2 & indexes[3]==3 & indexes[4]==6
+      - currentType=add1234To7
+    if indexes[0]==0 & indexes[1]==2 & indexes[2]==3 & indexes[3]==4 & indexes[4]==6
+      - currentType=add134Times5To7
+    if indexes[0]==0 & indexes[1]==2 & indexes[2]==3 & indexes[3]==6
+      - currentType=add134To7
+    if indexes[0]==0 & indexes[1]==3 & indexes[2]==6
+      - currentType=add14To7
+    if indexes[0]==0 & indexes[1]==3 & indexes[2]==6
+      - currentType=add14To7m
+    if indexes[0]==2 & indexes[1]==3 & indexes[2]==4 & indexes[3]==6
+      - currentType=add34Times5To7
+    if indexes[0]==2 & indexes[1]==3 & indexes[2]==6
+      - currentType=add34To7
   case type
     when "Table"
       +makeTable(headers, rows)
+      each row in rows
+        - currentType.push(row)
     when "Flexbox"
-      .flex.syncBottom
+      .sheet-flex.sheet-syncBottom
         +makeItems(headers, rows)
+        each row in rows
+          - currentType.push(row)
     when "Flexitems"
       +makeItems(headers, rows)
+      each row in rows
+        - currentType.push(row)
     when "singleItems"
       each attr in rows
-        .flex.syncBottom
+        .sheet-flex.sheet-syncBottom
           +makeSingleItems(headers, attr)
+      each row in rows
+        - currentType.push(row)
     when "singleItemsFlexbox"
-      .flex.syncBottom
+      .sheet-flex.sheet-syncBottom
         each attr in rows
-          .flex.syncBottom
+          .sheet-flex.sheet-syncBottom
             +makeSingleItems(headers, attr)
+      each row in rows
+        - currentType.push(row)
     when "repeating"
       each attr in rows
         fieldset(class=`repeating_${attr[0]}`)

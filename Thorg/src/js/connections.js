@@ -1,42 +1,100 @@
-function getRow(eventInfo,sectionname) { 
-    var res = eventInfo.sourceAttribute.split("_")
-    res.pop()
-    res=res.join("_");
-    return res+sectionname;
-}
-
-valuesLevelUpFields.forEach(function (stat) {
-    on("change:" + stat+baseValue+" change:"+stat+levelUp , () => calcRealValue(stat));
+add1234To7.forEach(function (stat) {
+    on("change:" + stat+fieldCodeAdditions[0]+" change:"+stat+fieldCodeAdditions[1]+" change:"+stat+fieldCodeAdditions[2]+" change:"+stat+fieldCodeAdditions[3] , () => {
+        var sumFields = [stat+fieldCodeAdditions[0],stat+fieldCodeAdditions[1],stat+fieldCodeAdditions[2],stat+fieldCodeAdditions[3]];
+        var allFields = sumFields;
+        getAttrs(allFields, function(values) {
+            setAttrs({
+                [stat+fieldCodeAdditions[6]]: sumFields.reduce((total, field) => total+values[field])
+            });
+        });
+    });
+});
+add134Times5To7.forEach(function (stat) {
+    on("change:" + stat+fieldCodeAdditions[0]+" change:"+stat+fieldCodeAdditions[2]+" change:"+stat+fieldCodeAdditions[3]+" change:"+stat+fieldCodeAdditions[4] , () => {
+        var sumFields = [stat+fieldCodeAdditions[0],stat+fieldCodeAdditions[2],stat+fieldCodeAdditions[3]];
+        var allFields = sumFields.concat([stat+fieldCodeAdditions[4]]);
+        getAttrs(allFields, function(values) {
+            setAttrs({
+                [stat+fieldCodeAdditions[6]]: sumFields.reduce((total, field) => total+values[field])*values[stat+fieldCodeAdditions[4]]
+            });
+        });
+    });
+});
+add134To7.forEach(function (stat) {
+    on("change:" + stat+fieldCodeAdditions[0]+" change:"+stat+fieldCodeAdditions[2]+" change:"+stat+fieldCodeAdditions[3] , () => {
+        var sumFields = [stat+fieldCodeAdditions[0],stat+fieldCodeAdditions[2],stat+fieldCodeAdditions[3]];
+        var allFields = sumFields;
+        getAttrs(allFields, function(values) {
+            setAttrs({
+                [stat+fieldCodeAdditions[6]]: sumFields.reduce((total, field) => total+values[field])
+            });
+        });
+    });
+});
+add14To7.forEach(function (stat) {
+    on("change:" + stat+fieldCodeAdditions[0]+" change:"+stat+fieldCodeAdditions[3] , () => {
+        var sumFields = [stat+fieldCodeAdditions[0],stat+fieldCodeAdditions[3]];
+        var allFields = sumFields;
+        getAttrs(allFields, function(values) {
+            setAttrs({
+                [stat+fieldCodeAdditions[6]]: sumFields.reduce((total, field) => total+values[field])
+            });
+        });
+    });
+});
+add14To7m.forEach(function (stat) {
+    on("change:" + stat+fieldCodeAdditions[0]+" change:"+stat+fieldCodeAdditions[3] , () => {
+        var sumFields = [stat+fieldCodeAdditions[0],stat+fieldCodeAdditions[3]];
+        var allFields = sumFields;
+        getAttrs(allFields, function(values) {
+            setAttrs({
+                [stat+fieldCodeAdditions[6]]: finalizeBonis(sumFields.reduce((total, field) => fuse2Bonis(total, values[field], 1)),1)
+            });
+        });
+    });
+});
+add34Times5To7.forEach(function (stat) {
+    on(" change:"+stat+fieldCodeAdditions[2]+" change:"+stat+fieldCodeAdditions[3]+" change:"+stat+fieldCodeAdditions[4] , () => {
+        var sumFields = [stat+fieldCodeAdditions[2],stat+fieldCodeAdditions[3]];
+        var allFields = sumFields.concat([stat+fieldCodeAdditions[4]]);
+        getAttrs(allFields, function(values) {
+            setAttrs({
+                [stat+fieldCodeAdditions[6]]: sumFields.reduce((total, field) => total+values[field])*values[stat+fieldCodeAdditions[4]]
+            });
+        });
+    });
+});
+add34To7.forEach(function (stat) {
+    on(" change:"+stat+fieldCodeAdditions[2]+" change:"+stat+fieldCodeAdditions[3] , () => {
+        var sumFields = [stat+fieldCodeAdditions[2],stat+fieldCodeAdditions[3]];
+        var allFields = sumFields;
+        getAttrs(allFields, function(values) {
+            setAttrs({
+                [stat+fieldCodeAdditions[6]]: sumFields.reduce((total, field) => total+values[field])
+            });
+        });
+    });
 });
 
-on("change:"+levelUpSection + " remove:"+levelUpSection, (eventInfo) => {
-    fields = [getRow(eventInfo.sourceAttribute,levelUpSection)+nameingField];
+on("change:repeating_"+levelUpSection + " remove:repeating_"+levelUpSection, () => {
+    fields = ["repeating_"+levelUpSection+nameingField];
     getAttrs(fields, function(values) {
         calcLevelUp(values[fields[0]]);
         //todo exp summup
     });
 });
 
-on("change:"+boniSection + " remove:"+boniSection, (eventInfo) => {
-    var rowId=getRow(eventInfo.sourceAttribute,boniSection);
-    fields = [rowId+nameingField,
-        rowId+boniActive,
-        rowId+boniText];
+on("change:repeating_"+boniSection + " remove:repeating_"+boniSection, () => {
+    fields = ["repeating_"+levelUpSection+nameingField,
+              "repeating_"+levelUpSection+boniActive,
+              "repeating_"+levelUpSection+boniText];
     getAttrs(fields, function(values) {
-        evalBonusText(rowId+boniValue,values[fields[2]],values[fields[1]],values[fields[0]])
+        evalBonusText("repeating_"+levelUpSection+boniValue,values[fields[2]],values[fields[1]],values[fields[0]])
     });
 });
 
-valuesWithAllBonusAndSumupValueNonNumberBonus.forEach(function (stat) {
-    on("change:" + stat+modAuto+" change:"+stat+modManuel , () => calcFullModValue(stat,0));
-    on("change:" + stat+mod+" change:"+stat+value , () => calcFullValue(stat,0));
-});
-valuesWithAllBonusAndSumupValueNumberBonus.forEach(function (stat) {
-    on("change:" + stat+modAuto+" change:"+stat+modManuel , () => calcFullModValue(stat,1));
-    on("change:" + stat+mod+" change:"+stat+value , () => calcFullValue(stat,1));
-});
-valuesForModding.forEach(function (stat) {
-    on("change:" + stat+value+" change:"+stat+final , () => {
-        //check if stat is in a bonus event
-    });
-});
+//valuesForModding.forEach(function (stat) {
+//    on("change:" + stat+value+" change:"+stat+final , () => {
+//        //check if stat is in a bonus event
+//    });
+//});

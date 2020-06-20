@@ -12,14 +12,14 @@
         +generateAttributeArray(calculatedValuesFieldCode, calculatedValues)
         +generateAttributeArray(bonusValuesFieldCode, bonusValues)
     .sheet-item
-      +sectionheader("Andere Werte")
+      +sectionheader("LP&Co")
         +generateAttributeArray(dynamicValuesFieldCode, dynamicValues)
         +sectionheader("Regeneration über Nacht",false)
           +generateAttributeArray(regNachtValuesFieldCode, regNachtValues)
         +sectionheader("Regeneration durch Meditation(1h)",false)
           +generateAttributeArray(reg1hValuesFieldCode, reg1hValues)
-        +sectionheader("Diverses",false)
-          +generateAttributeArray(ManuellValuesFieldCode, ManuellValues, "Flexbox")
+      +sectionheader("Andere Werte")
+        +generateAttributeArray(ManuellValuesFieldCode, ManuellValues, "Flexbox")
 .sheet-pc.sheet-talents
   .sheet-flex
     +sectionheader("Talente").sheet-item

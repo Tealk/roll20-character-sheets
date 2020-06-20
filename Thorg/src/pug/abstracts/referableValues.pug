@@ -11,7 +11,7 @@
     const spez=["_spez","Spezialisiert?","spez"];
     const origin=["_origin","Aktiviert?","origin"];
     const fieldCodeAdditions = [baseValue,levelUp,modManuel,modAuto,multi,current,max  ,mod  ,spez ,origin];
-    const fieldCodeDefaults  = ['een'    ,'enn'  ,'arn'    ,'enm'  ,'een','ar/'  ,'ann','enm','rrn','rrT' ];
+    const fieldCodeDefaults  = ['een'    ,'enn'  ,'arn'    ,'enm'  ,'een','ar/'  ,'ann','enm','rrc','rrT' ];
 
     //Datei aufbau:
     //  1. Definiere Werte A="A"
@@ -44,8 +44,8 @@
     //          |   |   |   |   |   |   |   |   |   talentCombobox              origin
     //          |   |   |   |   |   |   |   |   Spezialisiert(checkbox)         spez
     //          |   |   |   |   |   |   |   Voller Bonus(3+4)   (readonly)      mod
-    //          |   |   |   |   |   |   Voller Wert((1+2+3+4)*multi)(readonly)  _max
-    //          |   |   |   |   |   Aktueller Wert(immer edit)
+    //          |   |   |   |   |   |   Voller Wert((1+2+3+4)*multi)(readonly)  max
+    //          |   |   |   |   |   Aktueller Wert(immer edit)                  current
     //          |   |   |   |   Multiplier(default 1, manuell)                  multi
     //          |   |   |   Auto Bonus   (readonly,edit mode only?)             modAuto
     //          |   |   Manueller Bonus   (immer edit)                          modManuel
@@ -221,13 +221,3 @@
     var add14To7m=[]
     var add34Times5To7=[]
     var add34To7=[]
-    const regularLevelingSumUp = [attributes.concat(dynamicValues),"regularLevelingSumUp"];// 1,2,3,4=7
-    const bonusedMultiValues = [ManuellValues,"bonusedMultiValues"];//1,3,4x5=7
-    const bonusedValues = [KampfValues,"bonusedValues"];//1,3,4=7
-    const textBonusedValues = [KampfTPValues,"textBonusedValues"];//1,4=7(all as type=m)
-    const bonusMultiValues = [calculatedValues.concat(regNachtValues,
-                                                    reg1hValues),"bonusMultiValues"];//3,4x5=7
-    const bonusOnlyValues = [[],"bonusOnlyValues"];//3,4=7
-    const autoOnlyValues = [bonusValues,"autoOnlyValues"];//4=7
-
-    const allJsVarLists = []
