@@ -7,11 +7,15 @@
     const mod=["_overall_bonus","Gesamtbonus","mod"];
     const multi=["_multiplier","Multiplikator","multi"];
     const current=["","aktueller Wert","current"];
-    const max=["_max","maximaler Wert","max"];
+    const max=["_max","Voller Wert","max"];
     const spez=["_spez","Spezialisiert?","spez"];
     const origin=["_origin","Aktiviert?","origin"];
-    const fieldCodeAdditions = [baseValue,levelUp,modManuel,modAuto,multi,current,max  ,mod  ,spez ,origin];
-    const fieldCodeDefaults  = ['een'    ,'enn'  ,'arn'    ,'enm'  ,'een','ar/'  ,'ann','enm','rrc','rrT' ];
+    const talenttype=["_talenttype","Talenttype","talenttype"];
+    const körperlich=["_körperlich","Körperlich?","körperlich"];
+    const action=["_action","Button Field","action"];
+    const show=["_show","","show"];
+    const fieldCodeAdditions = [baseValue,levelUp,modManuel,modAuto,multi,current,max  ,mod  ,spez ,origin,talenttype,körperlich];
+    const fieldCodeDefaults  = ['een'    ,'enn'  ,'arn'    ,'enm'  ,'een','arn'  ,'ann','anm','rrc','rrO' ,'eeT'     ,'eec'     ];
 
     //Datei aufbau:
     //  1. Definiere Werte A="A"
@@ -28,7 +32,8 @@
     //                  't' -> textbox
     //                  'c' -> checkbox
     //                  'o' -> aufbewahrungsort
-    //                  'T' -> talentursprung combobox
+    //                  'O' -> talentursprung combobox
+    //                  'T' -> talenttype combobox
     //                  '/' -> number with trailing '/'
     //                  'P' -> Probenwurf(Roll)
     //                  'R' -> Resistenz/Probenwurf(Roll)
@@ -41,6 +46,8 @@
     //                  'M' -> Wiederherstellen/Regenerieren(Roll) 1h
     //                  'I' -> Initiative
     //FieldCode:1   2   3   4   5   6   7   8   9   10   11                     Ending
+    //          |   |   |   |   |   |   |   |   |   |    |   Körperlich         körperlich
+    //          |   |   |   |   |   |   |   |   |   |    talentCombobox2        talenttype
     //          |   |   |   |   |   |   |   |   |   talentCombobox              origin
     //          |   |   |   |   |   |   |   |   Spezialisiert(checkbox)         spez
     //          |   |   |   |   |   |   |   Voller Bonus(3+4)   (readonly)      mod
@@ -163,15 +170,18 @@
                          AttackenGezielt,
                          Reichweite];
     const KampfValuesFieldCode = ['rnn',0,3,4,0,0,7];
+    //- Zonen    Boni    RS    RK    AT    PA    Rückzug    Talente    RW
+    //- RW    TP Würfel    TP Bonus    RK    Talent(Name)    AT    PA    AU-Kosten    Meister-AT    Meister-PA    Abnutzung
 
     const TP = ["tp","Angriffsschaden","TP"];
     const KampfTPValues = [TP];
     const KampfTPValuesFieldCode = ['rnm',0,0,4,0,0,'anm'];
 
     const Waffentalent = ["waffentalent","Waffentalent","Waffentalent"];
-    const WaffentalentValues = [Waffentalent];
-    const WaffentalentFields = [Waffentalent];
-    const WaffentalentValuesFieldCode = ['rnl'];
+    const WaffenSpez = ["waffenspezialisierung","Waffenspezialisierung","WaffenSpez"];
+    const WaffentalentValues = [Waffentalent,WaffenSpez];
+    const WaffentalentFields = WaffentalentValues;
+    const WaffentalentValuesFieldCode = ['rnl','rnl'];
 
     const NahKampfTalente = ["nahkampftalente","Nahkampftalente","NahKampfTalente","F"];
     const FernKampfTalente = ["fernkampftalente","Fernkampftalente","FernKampfTalente","F"];
@@ -189,7 +199,7 @@
                      BerufeTalente,
                      SprachenTalente,
                      AndereTalente];
-    const TalenteFieldCode = [1,2,3,4,0,0,7,8,9,10];
+    const TalenteFieldCode = [1,2,3,4,0,0,7,8,9,10,11];
 
     const ExpSummary = ["exp","Erfahrungspunkte","ExpSummary"];
     const ExpSummarySum = ["_max","Insgesamt","ExpSummarySum"];
@@ -214,6 +224,7 @@
                                                  KampfValues,
                                                  KampfTPValues);
 
+    var add12To7And34To8m=[]
     var add1234To7=[]
     var add134Times5To7=[]
     var add134To7=[]

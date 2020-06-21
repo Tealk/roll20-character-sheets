@@ -1,0 +1,53 @@
+-
+    //defaultboniDB= array of arrays: [desteny,unaryOperation,[operand and operators],name]
+    var defaultBoniDB=[
+        [BasisKampfwert,'r',[Mut,Geschicklichkeit,'+',Körperkraft,'+',3,'/'],"Basis Kampfwert"],
+        [Schusswaffenbasis,'r',[Klugheit,Geschicklichkeit,'+',Körperkraft,'+',3,'/'],"Schuß-/Wurfwaffenbasis"],
+        [Rückzug,'r',[Mut,Intuition,'+',Geschicklichkeit,'+',3,'/'],"Rückzug"],
+        [Initiative,'r',[Reaktionswert,GEBonus,'+'],"Initiative"],
+        [Rennen,'=',[Körperkraft,Geschicklichkeit,'+',Reaktionswert,'+',Größe,'+',Gewicht,'-',50,'/'],"Rennen"],
+        [GeistigeStabilität,'r',[Klugheit,Klugheit,'+',Intuition,'+',3,'/'],"Geistige Stabilität"],
+        [Magieresistenz,'r',[Magiebegabung,10,'/'],"Magieresistenz1"],
+        [Magieresistenz,'f',[[ExpSummary,ExpSummaryInvested],1000,'/'],"Magieresistenz2"],
+        [Psiresistenz,'r',[GeistigeStabilität,10,'/'],"Psiresistenz1"],
+        [Psiresistenz,'f',[[ExpSummary,ExpSummaryInvested],1000,'/'],"Psiresistenz2"],
+        [Ausdauer,'r',[Lebenspunkte,Konstitution,'+',2,'/'],"Ausdauer"],
+        [Essenz,'r',[Magiebegabung,5,'/'],"Essenz"],
+        [GEBonus,'f',[Geschicklichkeit,51,'-',10,'/',0,'max'],"GE Bonus1"],
+        [GEBonus,'r',[Geschicklichkeit,60,'>',1,'*'],"GE Bonus2"],
+        [GEBonus,'f',[Geschicklichkeit,140,'>',1,'*'],"GE Bonus3"],
+        [KOBonus,'f',[Konstitution,51,'-',10,'/',0,'max'],"Ko Bonus1"],
+        [LernbonusTalente,'f',[Klugheit,Intuition,'+',2,'/',51,'-',10,'/,f',0,'max',5,'*',40,'min'],"LernBonus1"],
+        [LernbonusTalente,'f',[Klugheit,Intuition,'+',2,'/',131,'-',10,'/',0,'max',5,'min'],"LernBonus2"],
+        [TragkraftStufe,'c',[Körperkraft,20,'/',4,'min'],"Lastenstufe1"],
+        [TragkraftStufe,'f',[Körperkraft,71,'-',10,'/',0,'max'],"Lastenstufe2"],
+        [KampfTPValues,'f',[Körperkraft,Waffentalent,'+',2,'/',51,'-',10,'/',0,'max'],"Schadensbonus1"],
+        [KampfTPValues,'f',[WaffenSpez,51,'-',10,'/',0,'max'],"Schadensbonus2"],
+        [AtBonus,'f',[WaffenSpez,51,'-',10,'/',0,'max'],"Schadensbonus2"],
+        [PaBonus,'f',[WaffenSpez,51,'-',10,'/',0,'max'],"Schadensbonus2"],
+        [AUKosten,'c',[71,Waffentalent,'-',10,'/',0,'min',-3,'max'],"Ausdauer-Kostenreduktion"],
+        //[LernbonusMagie,'f',[Magiebegabung,Klugheit,'+',Intuition,'+',TalentMagiekunde,'+',TalentAstronomie,'+',5,'/'],"Lernbonus Magie"],
+        //[Rüstungsgewöhnung,'f',[TalentRüstungsgewöhnung,51,'-',10,'/',0,'max'],"Rüstungsgewöhnung1"],
+        //[Rüstungsgewöhnung,'r',[TalentRüstungsgewöhnung,60,'>',2,'*'],"Rüstungsgewöhnung2"],
+        ]
+
+    //defaultboni= array of arrays: [desteny,text,name]
+    var defaultBoni=[]
+    var bonusRows=[]
+each boni,index in defaultBoniDB
+    -var text=""
+    -var size=-1
+    each i in boni[2]
+        - var float=parseFloat(i)
+        if float
+          - text+=i+';'
+        else if size%2==1
+          - text+=i+';'
+        else if i.length==2
+          - text+=`{${i[0][0]+i[1][0]}};`
+        else
+          - text+=`{${i[0]+max[0]}};`
+        -size+=1
+    -text+=boni[1]+";"
+    -defaultBoni.push([boni[0][0],text,boni[3]])
+    -bonusRows.push([`default_bonus_${index}`,boni[3],"","",[boni[0][0],text,"Regelwerk"]])

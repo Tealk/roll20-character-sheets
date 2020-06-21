@@ -23,10 +23,11 @@
 .sheet-pc.sheet-talents
   .sheet-flex
     +sectionheader("Talente").sheet-item
-      .sheet-flex
-        each talent in Talente
-          +sectionheader(talent).sheet-item
-            +generateAttributeArray(TalenteFieldCode, [talent], "repeating")
+      +generateAttributeArray(TalenteFieldCode, TalentList)
+      //-.sheet-flex
+      //-  each talent in Talente
+      //-    +sectionheader(talent[1]).sheet-item
+      //-      +generateAttributeArray(TalenteFieldCode, [talent], "repeating")
     +sectionheader("Spezialfähigkeiten").sheet-item
       +generateAttributeArray(SpezFieldCode, [SpezSection], "repeating", SpezFields, SpezFieldCode)
 .sheet-pc.sheet-equip
@@ -47,13 +48,15 @@
   +generateAttributeArray(ExpSummaryFieldCode, [ExpSummary], "Flexbox", ExpSummaryField, ExpSummaryFieldCode)
   .sheet-flex
     +sectionheader("Anwenden").sheet-item.sheet-anwendbar
-      TODO
+      //-TODO
+      span="Kommt demnächst"
     +sectionheader("Eigene Exp(aus Abenteuern)").sheet-item
-      +generateAttributeArray(expFieldCode, [expSection], "repeating", expFields, expFieldCode)
-    +sectionheader("Automatische Exp").sheet-item
       +generateAttributeArray(userExpFieldCode, [userExpSection], "repeating", userExpFields, userExpFieldCode)
+    +sectionheader("Automatische Exp").sheet-item
+      +generateAttributeArray(expFieldCode, [expSection], "repeating", expFields, expFieldCode)
     +sectionheader("Steigern").sheet-item.sheet-steigerbar
-      TODO
+      //-TODO
+      span="Kommt demnächst"
     +sectionheader("Ausgegebene Exp").sheet-item
       +generateAttributeArray(levelUpFieldCode, [levelUpSection], "repeating", levelUpFields, levelUpFieldCode)
 .sheet-pc.sheet-spells
@@ -67,10 +70,14 @@
     +sectionheader("Bonusliste").sheet-item
       +generateAttributeArray(boniFieldCode, [boniSection], "repeating", boniFields, boniFieldCode)
 .sheet-pc.sheet-kampf
-  TODO
+  //-TODO
+  span="Kommt demnächst"
 .sheet-pc.sheet-zaubern
-  TODO
+  //-TODO
+  span="Kommt demnächst"
 .sheet-pc.sheet-addZauber
-  TODO
+  //-TODO
+  span="Kommt demnächst"
 .sheet-pc.sheet-addItemOrSpez
-  TODO
+  //-TODO
+  span="Kommt demnächst"

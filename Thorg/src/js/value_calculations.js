@@ -180,26 +180,31 @@ const evalOneOperation = (first, second, operation) => {
 };
 // operation: =;ciel(c);floor(f);round(r)
 const evalUnaryOperation = (first, operation, addition) => {
+    var valid=false;
     switch (operation) {
         case "c":
             var result=Math.round(first);
+            valid=true;
             break;
         case "f":
             var result=Math.floor(first);
+            valid=true;
             break;
         case "r":
             var result=Math.ceil(first);
+            valid=true;
             break;
         case "=":
             var result=first;
+            valid=true;
             break;
                             
         default:
             var result="0\n"+first+":d"+operation;
-            addition=0;
+            addition="";
             break;
     }
-    if (addition){
+    if (addition!=""){
         result="0\n"+result+":"+addition;
     }
     return result;
@@ -235,13 +240,17 @@ const evalBonusText = (destination,text,active,changeingValue) => {
                 firstValue=secondValue;
                 roll+=1;
             } else {
-                firstValue=evalOneOperation(firstValue,secondValue,operation)
+                operations=operation.split(',')
+                firstValue=evalOneOperation(firstValue,secondValue,operations[0])
+                if (operations[1]){
+                    firstValue=evalUnaryOperation(firstValue,operations[1],"")
+                }
             }
         }
         if ((roll==1) && preValue) {
-            setAttrs({[destination]: evalUnaryOperation(preValue,firstValue,preValue,addition)}, "silent", () => calcModAutoValue(changeingValue));    
+            setAttrs({[destination]: evalUnaryOperation(firstValue,preValue,addition)}, "silent", () => calcModAutoValue(changeingValue));    
         } else if (!roll) {
-            setAttrs({[destination]: evalUnaryOperation(preValue,firstValue,unaryOperand,addition)}, "silent", () => calcModAutoValue(changeingValue));    
+            setAttrs({[destination]: evalUnaryOperation(firstValue,unaryOperand,addition)}, "silent", () => calcModAutoValue(changeingValue));    
         }
     });
 };

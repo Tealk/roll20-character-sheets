@@ -1,0 +1,97 @@
+@contrail: "Contrail One", sans-serif;
+/* sheet colors */
+@brightblue: #2B3FEA;
+@navyblue: #223297;
+@darkblue: #11194B;
+@headergrey: #9B9B9B;
+@skillgrey: #D3D3D3;
+@lightbox: #F0F0F0;
+
+//tables
+.sheet-table{
+  display: table;
+  width: 1px;
+}
+.sheet-table-row {
+  display: table-row;
+}
+.sheet-table-item, .sheet-table-head {
+  border: 1px solid #999999;
+  display: table-cell;
+  padding: 3px 10px;
+}
+.sheet-table-heading{
+  background-color: #EEE;
+  display: table-header-group;
+  font-weight: bold;
+}
+.sheet-table-body{
+  display: table-row-group;
+}
+.sheet-table-foot {
+  background-color: #EEE;
+  display: table-footer-group;
+  font-weight: bold;
+}
+//flexbox
+.sheet-flex {
+    display: flex;
+    justify-content: safe space-evenly;
+    flex-wrap: wrap;
+}
+.sheet-nowrap  { 
+  flex-wrap: nowrap;
+}
+.sheet-syncBottom {
+  align-items: safe end;
+}
+.sheet-flex > .sheet-item {
+  padding: 5px;
+  margin: 5px;
+  flex-basis: auto; // default auto
+}
+.sheet-line {
+    white-space: nowrap;
+}
+
+//metabuttons
+button[type=roll].sheet-invisible-button {
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  &:hover + div {
+    color: @brightblue;
+    border-color:  @brightblue;
+  }
+}
+
+//sectionheader
+// Section visibility toggling 
+input.sheet-toggle-show:not(:checked) + span + div.sheet-body{
+  display: none;
+}
+
+//.rep_noadd.repcontrol_add {
+//  display: none;
+//}
+
+//edit/showmode switches
+.sheet-hidden,
+.sheet-editmode:not(:checked) ~ .sheet-showmode:not(:checked) ~ * .sheet-edit:not(.sheet-display),
+.sheet-editmode:not(:checked) ~ .sheet-showmode:not(:checked) ~ * .sheet-show:not(.sheet-display),
+.sheet-editmode:checked ~ .sheet-showmode:not(:checked) ~ * .sheet-display:not(.sheet-edit),
+.sheet-editmode:checked ~ .sheet-showmode:not(:checked) ~ * .sheet-show:not(.sheet-edit),
+.sheet-showmode:checked ~ * .sheet-edit:not(.sheet-show),
+.sheet-showmode:checked ~ * .sheet-display:not(.sheet-show) {
+    display: none;
+}
+
+
+//rep.section/row filter
+input.sheet-toggle-show[value="0"] ~ div.sheet-row-hider {
+    display: none;
+}

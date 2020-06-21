@@ -1,3 +1,17 @@
+@import "src/less/abstracts/mixins.less";
+
+
+.sheet-text-input {
+    color: #666;
+    padding-right: 5px;
+    line-height: 1;
+    .sheet-label {
+        font-size: .9em;
+        text-align: inherit;
+        line-height: 14px;
+        border-top: 1px solid #AAA;
+    }
+}
 .sheet-container {
     width: 870px;
 
@@ -52,48 +66,4 @@
         padding      : 0px;
         font-size    : 15px;
     }
-}
-.sheet-display,
-.sheet-edit,
-.sheet-show,
-.rep_noadd.repcontrol_add {
-  display: none;
-}
-//todo correct buttons
-.sheet-editmode:not(:checked) ~ .sheet-showmode:not(:checked) ~ * .sheet-display,
-.sheet-editmode:checked ~ .sheet-showmode:not(:checked) ~ * .sheet-edit,
-.sheet-showmode:checked ~ * .sheet-show {
-    display: inline;
-}
-
-.sheet-table{ display: table; }
-.sheet-table-row { display: table-row; }
-.sheet-table-heading { display: table-header-group;}
-.sheet-table-item, .sheet-table-head { display: table-cell;}
-.sheet-table-heading { display: table-header-group;}
-.sheet-table-body { display: table-row-group;}
-.sheet-flex {
-    display: flex;
-    justify-content: safe space-evenly;
-    flex-wrap: wrap;
-}
-.sheet-line {
-    white-space: nowrap;
-}
-
-.sheet-syncBottom {
-    align-items: safe end;
-}
-
-.sheet-nowrap  { 
-    flex-wrap: nowrap;
-}
-
-.sheet-flex > .sheet-item {
-    padding: 5px;
-    margin: 5px;
-    flex-basis: auto; /* default auto */
-}
-input.sheet-toggle-show:not(:checked) + span + div.sheet-body{
-    display: none;
 }

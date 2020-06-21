@@ -9,6 +9,8 @@ include src/pug/abstracts/referableValues.pug
 include src/pug/abstracts/otherSingleValues.pug
 include src/pug/abstracts/OptionLists.pug
 include src/pug/abstracts/repetedSections.pug
+include src/pug/abstracts/database.pug
+include src/pug/abstracts/talente.pug
 
 //- INCLUDES
   =============================
@@ -48,13 +50,17 @@ script(type="text/worker")
   +valueToJs(EquipSummaryLevel)
   +fullArrayToJs(fieldCodeAdditions,"fieldCodeAdditions")
   +plainArrayToJs(allRegularListsButTalents,"allRegularListsButTalents")
+  +plainArrayToJs(add12To7And34To8m,"add12To7And34To8m")
   +plainArrayToJs(add1234To7,"add1234To7")
   +plainArrayToJs(add134Times5To7,"add134Times5To7")
   +plainArrayToJs(add134To7,"add134To7")
   +plainArrayToJs(add14To7,"add14To7")
   +plainArrayToJs(add14To7m,"add14To7m")
   +plainArrayToJs(add34Times5To7,"add34Times5To7")
-  +plainArrayToJs(add34To7,"add34To7")
+  +plainArrayOfArraysToJs(defaultBoni,"defaultBoni")
+  |
+  |
+  |
   include src/js/value_calculations.js
   include src/js/repeting_calculations.js
   include src/js/connections.js

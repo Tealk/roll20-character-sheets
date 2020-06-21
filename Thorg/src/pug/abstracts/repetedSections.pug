@@ -61,7 +61,7 @@
                       SpezCount,
                       SpezMax,
                       Description];
-    const SpezFieldCode = ['ael','ar/','aen','aet'];
+    const SpezFieldCode = ['ael','arn','aen','aet'];
 
     //=> ?!PSI und Zauber später!?
     //PSI: Name;RW;WD(zahlen?);ZA(Zahlen!);Wirkung;Probe(Zahlen);Psi-Kosten(Zahlen!);Kosten;Rettungswurf;Vorraussetzung(nur im Mancer relevant)?
@@ -111,21 +111,23 @@
     const RKValue=["rk","RK","RKValue"];
     const armorMalus=["malus","Gesamtmalus","armorMalus"];
     const armorType=["type","Type","armorType"]; // Rüstung oder Kleidung
+    // Zonen	Boni	RS	RK	AT	PA	Rückzug	Talente	RW
     const armorFields=[nameField,
-                       Description,
-                       equipResult,
-                       equipLocation,
-                       equipLocation2,
-                       RSValue,
-                       RKValue,
-                       armorMalus,
-                       armorType];
+                    Description,
+                    equipResult,
+                    equipLocation,
+                    equipLocation2,
+                    RSValue,
+                    RKValue,
+                    armorMalus,
+                    armorType];
     const armorFieldCode = ['ael','aet','aen','aao','aal','aen','aen','aen','aen'];
 
     //weapon
     const weaponSection=["weapon","Waffen","weaponSection"];
     
     const weaponTalent=["talent","zugehöriges Talent","weaponTalent"];
+    // RW	TP Würfel	TP Bonus	RK	Talent	AT	PA	AU-Kosten	Meister-AT	Meister-PA	Abnutzung
     const weaponFields=[nameField,
                        Description,
                        equipResult,

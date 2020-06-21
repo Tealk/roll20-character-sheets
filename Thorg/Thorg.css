@@ -1,3 +1,92 @@
+/* sheet colors */
+.sheet-table {
+  display: table;
+  width: 1px;
+}
+.sheet-table-row {
+  display: table-row;
+}
+.sheet-table-item,
+.sheet-table-head {
+  border: 1px solid #999999;
+  display: table-cell;
+  padding: 3px 10px;
+}
+.sheet-table-heading {
+  background-color: #EEE;
+  display: table-header-group;
+  font-weight: bold;
+}
+.sheet-table-body {
+  display: table-row-group;
+}
+.sheet-table-foot {
+  background-color: #EEE;
+  display: table-footer-group;
+  font-weight: bold;
+}
+.sheet-flex {
+  display: flex;
+  justify-content: safe space-evenly;
+  flex-wrap: wrap;
+}
+.sheet-nowrap {
+  flex-wrap: nowrap;
+}
+.sheet-syncBottom {
+  align-items: safe end;
+}
+.sheet-flex > .sheet-item {
+  padding: 5px;
+  margin: 5px;
+  flex-basis: auto;
+}
+.sheet-line {
+  white-space: nowrap;
+}
+button[type=roll].sheet-invisible-button {
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+button[type=roll].sheet-invisible-button:hover + div {
+  color: #2B3FEA;
+  border-color: #2B3FEA;
+}
+input.sheet-toggle-show:not(:checked) + span + div.sheet-body {
+  display: none;
+}
+.sheet-hidden,
+.sheet-editmode:not(:checked) ~ .sheet-showmode:not(:checked) ~ * .sheet-edit:not(.sheet-display),
+.sheet-editmode:not(:checked) ~ .sheet-showmode:not(:checked) ~ * .sheet-show:not(.sheet-display),
+.sheet-editmode:checked ~ .sheet-showmode:not(:checked) ~ * .sheet-display:not(.sheet-edit),
+.sheet-editmode:checked ~ .sheet-showmode:not(:checked) ~ * .sheet-show:not(.sheet-edit),
+.sheet-showmode:checked ~ * .sheet-edit:not(.sheet-show),
+.sheet-showmode:checked ~ * .sheet-display:not(.sheet-show) {
+  display: none;
+}
+input.sheet-toggle-show[value="0"] ~ div.sheet-row-hider {
+  display: none;
+}
+.sheet-text-input {
+  color: #666;
+  padding-right: 5px;
+  line-height: 1;
+}
+.sheet-text-input .sheet-label {
+  font-size: 0.9em;
+  text-align: inherit;
+  line-height: 14px;
+  border-top: 1px solid #AAA;
+}
+.sheet-text-input .sheet-label input[type="checkbox"] {
+  height: 14px;
+  margin: 0 3px 0 0;
+}
 .sheet-container {
   width: 870px;
 }
@@ -44,57 +133,4 @@
   font-weight: normal;
   padding: 0px;
   font-size: 15px;
-}
-.sheet-display,
-.sheet-edit,
-.sheet-show,
-.rep_noadd.repcontrol_add {
-  display: none;
-}
-.sheet-editmode:not(:checked) ~ .sheet-showmode:not(:checked) ~ * .sheet-display,
-.sheet-editmode:checked ~ .sheet-showmode:not(:checked) ~ * .sheet-edit,
-.sheet-showmode:checked ~ * .sheet-show {
-  display: inline;
-}
-.sheet-table {
-  display: table;
-}
-.sheet-table-row {
-  display: table-row;
-}
-.sheet-table-heading {
-  display: table-header-group;
-}
-.sheet-table-item,
-.sheet-table-head {
-  display: table-cell;
-}
-.sheet-table-heading {
-  display: table-header-group;
-}
-.sheet-table-body {
-  display: table-row-group;
-}
-.sheet-flex {
-  display: flex;
-  justify-content: safe space-evenly;
-  flex-wrap: wrap;
-}
-.sheet-line {
-  white-space: nowrap;
-}
-.sheet-syncBottom {
-  align-items: safe end;
-}
-.sheet-nowrap {
-  flex-wrap: nowrap;
-}
-.sheet-flex > .sheet-item {
-  padding: 5px;
-  margin: 5px;
-  flex-basis: auto;
-  /* default auto */
-}
-input.sheet-toggle-show:not(:checked) + span + div.sheet-body {
-  display: none;
 }

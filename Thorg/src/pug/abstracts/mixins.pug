@@ -3,19 +3,32 @@ mixin sectionheader(label, open=true)
     Parameters
       label: i18n code for the text appearing on the header
         (block is inserted if no label is specified)
-  input(type="checkbox", class="sheet-toggle-show", checked=open)
-  span=label
-  div(class="sheet-body")
-    block
+  .section-toggle-header
+    input(type="checkbox", class="sheet-toggle-show", checked=open)
+    span=label
+    .sheet-body
+      block
 
 mixin optionList(type)
   case type
-    when 'T'
+    when 'O'
       each name in talentOrigins
-        option=name
+        if name.length==2
+          option(value=name[1] selected=attributes["value"]==name[1]?true:false)=name[0]
+        else
+          option(selected=attributes["value"]==name?true:false)=name
+    when 'T'
+      each name in talentTypes
+        if name.length==2
+          option(value=name[1] selected=attributes["value"]==name[1]?true:false)=name[0]
+        else
+          option(selected=attributes["value"]==name?true:false)=name
     when 'o'
       each name in aufbewahrungsorte
-        option=name
+        if name.length==2
+          option(value=name[1] selected=attributes["value"]==name[1]?true:false)=name[0]
+        else
+          option(selected=attributes["value"]==name?true:false)=name
 
 mixin inputField(name, type="l", rollValueAddition=max)
   //- Creates a editable input field
@@ -43,17 +56,17 @@ mixin inputField(name, type="l", rollValueAddition=max)
   - delete attributes.name;
   case type
     when 'l'
-      input(type="text", name=`attr_${name}`, title=`@{${name}}`)&attributes(attributes)
+      input(type="text", name=`attr_${name}`, title=`@{${name}}`, size=20)&attributes(attributes)
     when 'n'
     when '/'
-      input(type="number", name=`attr_${name}`, title=`@{${name}}`, value="0")&attributes(attributes)
+      input(type="number", name=`attr_${name}`, title=`@{${name}}`, size=3)&attributes(attributes)
     when 'h'
       input(type="hidden", name=`attr_${name}`, title=`@{${name}}`)&attributes(attributes)
     when 'c'
       input(type="checkbox", name=`attr_${name}`, title=`@{${name}}`)&attributes(attributes)
     when 'm'
     when 't'
-      textarea(name=`attr_${name}`, title=`@{${name}}`, cols="30", rows="10")&attributes(attributes)
+      textarea(name=`attr_${name}`, title=`@{${name}}`)&attributes(attributes)
     when 'S'
     when 'U'
     when 'F'
@@ -73,7 +86,7 @@ mixin inputField(name, type="l", rollValueAddition=max)
       button(type="roll", name=`roll_${name}`, value="/me insert initiative Rolling here")
     default
       select(name=`attr_${name}`, title=`@{${name}}`)&attributes(attributes)
-        +optionList(type)
+        +optionList(type)&attributes(attributes)
 
 mixin outputField(name, type="i")
   //- Creates a editable input field
@@ -87,22 +100,39 @@ mixin outputField(name, type="i")
       All attributes are passed on to the input.
   span(name=`attr_${name}`, title=`@{${name}}`)&attributes(attributes)
 
-mixin visibility(name,visibility='a')
+mixin visibility(visibility='a',type="span")
   case visibility
     when 0
     when 'n'
-      +inputField(name, 'h')&attributes(attributes)
+      if type=="span"
+        span.sheet-hidden&attributes(attributes)
+          block
+      else
+        .sheet-hidden&attributes(attributes)
+          block
     when 1
     when 'e'
-      span.sheet-edit
-        block
+      if type=="span"
+        span.sheet-edit&attributes(attributes)
+          block
+      else
+        .sheet-edit&attributes(attributes)
+          block
     when 2
     when 'r'
-      span.sheet-edit.sheet-display
-        block
+      if type=="span"
+        span.sheet-edit.sheet-display&attributes(attributes)
+          block
+      else
+        .sheet-edit.sheet-display&attributes(attributes)
+          block
     default
-      span.sheet-edit.sheet-display.sheet-show
-        block
+      if type=="span"
+        span.sheet-edit.sheet-display.sheet-show&attributes(attributes)
+          block
+      else
+        .sheet-edit.sheet-display.sheet-show&attributes(attributes)
+          block
 
 mixin attrField(name, visibility='a', editible='r', type="l")
   //- Creates a value field
@@ -121,7 +151,7 @@ mixin attrField(name, visibility='a', editible='r', type="l")
     block adapted to visibility
     Attributes
       All attributes are passed on to the input.
-  +visibility(name,visibility)&attributes(attributes)
+  +visibility(visibility)
     case editible
       when 0
       when 'n'
@@ -129,14 +159,14 @@ mixin attrField(name, visibility='a', editible='r', type="l")
         +outputField(name, type).sheet-edit.sheet-display.sheet-show
       when 1
       when 'e'
-        +inputField(name, type)&attributes(attributes).sheet-edit
+        +inputField(name, type, defaultValue=defaultValue)&attributes(attributes).sheet-edit
         +outputField(name, type).sheet-display.sheet-show
       when 2
       when 'r'
-        +inputField(name, type)&attributes(attributes).sheet-edit.sheet-display
+        +inputField(name, type, defaultValue=defaultValue)&attributes(attributes).sheet-edit.sheet-display
         +outputField(name, type).sheet-show
       default
-        +inputField(name, type)&attributes(attributes).sheet-edit.sheet-display.sheet-show
+        +inputField(name, type, defaultValue=defaultValue)&attributes(attributes).sheet-edit.sheet-display.sheet-show
     if type=='/'
       span="/"
     block
@@ -181,8 +211,36 @@ mixin makeSingleItems(headers, attr)
         type: class for attrField
       row: a single row
   each header,index in headers
-    +labeledBlock(header[0]).sheet-item
-      +attrField(`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])&attributes(header[4])
+    +visibility(header[1],"div").sheet-item
+      +labeledBlock(header[0])
+        +attrField(`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])&attributes(header[4])
+
+mixin makeSingleItemFlexbox(headers, attr)
+  if attr.length>3
+    if attr[3]=="h"
+      +inputField(`${attr[0]}${show}`,attr[3]).toggle-show
+      .sheet-row-hider.sheet-flex.sheet-syncBottom
+        +makeSingleItems(headers, attr)
+    else if attr[3]!=""
+      +inputField(`${attr[0]}${action}`,attr[3]).sheet-invisible-button
+      .sheet-flex.sheet-syncBottom
+        +makeSingleItems(headers, attr)
+    else
+      .sheet-flex.sheet-syncBottom
+        +makeSingleItems(headers, attr)
+  else
+    .sheet-flex.sheet-syncBottom
+      +makeSingleItems(headers, attr)
+
+mixin makeTableRow(headers, attr)
+  .sheet-table-row
+    .sheet-table-item=attr[1]
+    each header,index in headers
+      - var defaultValue=""
+      if attr.length>4
+        - defaultValue = attr[4][index]
+      +visibility(header[1],"div")(class="sheet-table-item")
+        +attrField(`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])(value=`${defaultValue}`)&attributes(header[4])
 
 mixin makeTable(headers, rows)
   //- Creates a table
@@ -198,27 +256,21 @@ mixin makeTable(headers, rows)
       .sheet-table-row
         .sheet-table-head=""
         each header in headers
-          case header[1]
-            when 0
-            when 'n'
-              - break
-            when 1
-            when 'e'
-              .sheet-table-head.sheet-edit=header[0][1]
-            when 2
-            when 'r'
-              .sheet-table-head.sheet-edit.sheet-display=header[0][1]
-            default
-              .sheet-table-head=header[0][1]
+          +visibility(header[1],"div")(class="sheet-table-head")=header[0][1]
     .sheet-table-body
       each attr in rows
         if attr.length>3
-          +inputField(attr[0],attr[3]).sheet-invisible-button
-        .sheet-table-row
-          .sheet-table-item=attr[1]
-          each header in headers
-            .sheet-table-item
-              +attrField(`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])&attributes(header[4])
+          if attr[3]=="h"
+            +inputField(`${attr[0]}${show}`,attr[3]).toggle-show
+            .sheet-row-hider
+              +makeTableRow(headers, attr)
+          else if attr[3]!=""
+            +inputField(`${attr[0]}${action}`,attr[3]).sheet-invisible-button
+            +makeTableRow(headers, attr)
+          else
+            +makeTableRow(headers, attr)
+        else
+          +makeTableRow(headers, attr)
 
 mixin generateAttributeArray(fieldCode, rows, type="Table", fieldNames=fieldCodeAdditions, fieldDefaults=fieldCodeDefaults)
   //- Visualize a attribute array
@@ -244,19 +296,21 @@ mixin generateAttributeArray(fieldCode, rows, type="Table", fieldNames=fieldCode
       - indexes.push(index)
   - var currentType=[]
   if fieldNames==fieldCodeAdditions
-    if indexes[0]==0 & indexes[1]==1 & indexes[2]==2 & indexes[3]==3 & indexes[4]==6
+    if indexes[0]==0 & indexes[1]==1 & indexes[2]==2 & indexes[3]==3 & indexes[4]==6 & indexes[5]==7
+      - currentType=add12To7And34To8m
+    else if indexes[0]==0 & indexes[1]==1 & indexes[2]==2 & indexes[3]==3 & indexes[4]==6
       - currentType=add1234To7
-    if indexes[0]==0 & indexes[1]==2 & indexes[2]==3 & indexes[3]==4 & indexes[4]==6
+    else if indexes[0]==0 & indexes[1]==2 & indexes[2]==3 & indexes[3]==4 & indexes[4]==6
       - currentType=add134Times5To7
-    if indexes[0]==0 & indexes[1]==2 & indexes[2]==3 & indexes[3]==6
+    else if indexes[0]==0 & indexes[1]==2 & indexes[2]==3 & indexes[3]==6
       - currentType=add134To7
-    if indexes[0]==0 & indexes[1]==3 & indexes[2]==6
+    else if indexes[0]==0 & indexes[1]==3 & indexes[2]==6
       - currentType=add14To7
-    if indexes[0]==0 & indexes[1]==3 & indexes[2]==6
+    else if indexes[0]==0 & indexes[1]==3 & indexes[2]==6
       - currentType=add14To7m
-    if indexes[0]==2 & indexes[1]==3 & indexes[2]==4 & indexes[3]==6
+    else if indexes[0]==2 & indexes[1]==3 & indexes[2]==4 & indexes[3]==6
       - currentType=add34Times5To7
-    if indexes[0]==2 & indexes[1]==3 & indexes[2]==6
+    else if indexes[0]==2 & indexes[1]==3 & indexes[2]==6
       - currentType=add34To7
   case type
     when "Table"
@@ -274,8 +328,7 @@ mixin generateAttributeArray(fieldCode, rows, type="Table", fieldNames=fieldCode
         - currentType.push(row)
     when "singleItems"
       each attr in rows
-        .sheet-flex.sheet-syncBottom
-          +makeSingleItems(headers, attr)
+        +makeSingleItemFlexbox(headers, attr)
       each row in rows
         - currentType.push(row)
     when "singleItemsFlexbox"
@@ -288,7 +341,8 @@ mixin generateAttributeArray(fieldCode, rows, type="Table", fieldNames=fieldCode
     when "repeating"
       each attr in rows
         fieldset(class=`repeating_${attr[0]}`)
-          +makeSingleItems(headers, attr)
+          +makeSingleItemFlexbox(headers, attr)
+          //-TODO: append a Weapon/Armor section
 
 mixin valueToJs(variable)
   | 
@@ -296,7 +350,7 @@ mixin valueToJs(variable)
   != variable[2]
   | = "
   != variable[0]
-  |"
+  |";
 mixin fullArrayToJs(variables,arrayNameInJs)
   - var myList=[]
   each variable in variables
@@ -307,7 +361,7 @@ mixin fullArrayToJs(variables,arrayNameInJs)
   != arrayNameInJs
   | = [
   != myList
-  |]
+  |];
 mixin plainArrayToJs(variables,arrayNameInJs)
   - var myList=[]
   each variable in variables
@@ -317,4 +371,21 @@ mixin plainArrayToJs(variables,arrayNameInJs)
   != arrayNameInJs
   | = [
   != myList
-  |]
+  |];
+mixin plainArrayOfArraysToJs(variables,arrayNameInJs)
+  | 
+  | const 
+  != arrayNameInJs
+  | = [
+  - var second=false
+  each list in variables
+    - var myList=[]
+    each variable in list
+      -myList.push(`"${variable}"`)
+    if second
+      |,
+    |[
+    != myList
+    |]
+    -second=true
+  |];
