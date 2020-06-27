@@ -30,7 +30,7 @@ mixin optionList(type)
         else
           option(selected=attributes["value"]==name?true:false)=name
 
-mixin inputField(name, type="l", rollValueAddition=max)
+mixin inputField(name, nameWithAdditions, type="l", rollValueAddition=max[0])
   //- Creates a editable input field
     Parameters
       name: underlying attribute name (without "attr_")
@@ -56,36 +56,61 @@ mixin inputField(name, type="l", rollValueAddition=max)
   - delete attributes.name;
   case type
     when 'l'
-      input(type="text", name=`attr_${name}`, title=`@{${name}}`, size=20)&attributes(attributes)
+      input(type="text", name=`attr_${nameWithAdditions}`, title=`@{${nameWithAdditions}}`, size=20)&attributes(attributes)
     when 'n'
     when '/'
-      input(type="number", name=`attr_${name}`, title=`@{${name}}`, size=3)&attributes(attributes)
+      input(type="number", name=`attr_${nameWithAdditions}`, title=`@{${nameWithAdditions}}`, size=3)&attributes(attributes)
     when 'h'
-      input(type="hidden", name=`attr_${name}`, title=`@{${name}}`)&attributes(attributes)
+      input(type="hidden", name=`attr_${nameWithAdditions}`, title=`@{${nameWithAdditions}}`)&attributes(attributes)
     when 'c'
-      input(type="checkbox", name=`attr_${name}`, title=`@{${name}}`)&attributes(attributes)
+      - var checked=attributes.value;
+      - delete attributes.value;
+      input(type="checkbox", name=`attr_${nameWithAdditions}`, title=`@{${nameWithAdditions}}`, checked=(checked==0)?false:true)&attributes(attributes)
     when 'm'
     when 't'
-      textarea(name=`attr_${name}`, title=`@{${name}}`)&attributes(attributes)
+      textarea(name=`attr_${nameWithAdditions}`, title=`@{${nameWithAdditions}}`)&attributes(attributes)
     when 'S'
+      button(type="action", name=`act_${name}${levelUpButtonAddition}`)&attributes(attributes)=levelUpButtonAddition[1]
+      -levelUpButtons.push([name])
     when 'U'
+      button(type="action", name=`act_${name}${levelUpButtonAddition[0]}`)&attributes(attributes)=levelUpButtonAddition[1]
+      -levelUpButtons.push([name])
+      button(type="roll", name=`roll_${nameWithAdditions}`, value=`Rolle ${name} um ?{Erschwernis|0} übrige Punkte: [[@{${name}${rollValueAddition}}-?{Erschwernis} - (1d100cs1cf>[[1+@{${name}${rollValueAddition}-?{Erschwernis}}]]cf100)]]`)&attributes(attributes)="Probe"
     when 'F'
+      button(type="action", name=`act_${name}${levelUpButtonAddition[0]}`)&attributes(attributes)=levelUpButtonAddition[1]
+      -levelUpButtons.push([name])
+      button(type="roll", name=`roll_${nameWithAdditions}`, value=`Rolle ${name} um ?{Erschwernis|0} übrige Punkte: [[@{${name}${rollValueAddition}}-?{Erschwernis} - (1d100cs1cf>[[1+@{${name}${rollValueAddition}-?{Erschwernis}}]]cf100)]]`)&attributes(attributes)="Probe"
+      button(type="action", name=`act_${name}${usingButtonAddition[0]}`)&attributes(attributes)=usingButtonAddition[1]
+      -usingButtons.push([name])
     when 'E'
-      button(type="action", name=`act_${name}`)
+      button(type="action", name=`act_${name}${usingButtonAddition[0]}`)&attributes(attributes)=usingButtonAddition[1]
+      -usingButtons.push([name])
+    when '?'
+      button(type="action", name=`act_${nameWithAdditions}`)&attributes(attributes)
+        block
+    when '0'
+      button(type="roll", name=`roll_${nameWithAdditions}`, value=`@{${name}_makro}`)&attributes(attributes)
+        block
     when 'P'
-      button(type="roll", name=`roll_${name}`, value=`Rolle ${name} um ?{Erschwernis|0} übrige Punkte: [[@{${name}${rollValueAddition}}-?{Erschwernis} - (1d100cs1cf>[[1+@{${name}${rollValueAddition}-?{Erschwernis}}]]cf100)]]`)
+      button(type="roll", name=`roll_${nameWithAdditions}`, value=`Rolle ${name} um ?{Erschwernis|0} übrige Punkte: [[@{${name}${rollValueAddition}}-?{Erschwernis} - (1d100cs1cf>[[1+@{${name}${rollValueAddition}-?{Erschwernis}}]]cf100)]]`)&attributes(attributes)="Probe"
+        block
     when 'R'
-      button(type="roll", name=`roll_${name}`, value=`?{Was?|Gegenprobe, Rolle ${name} [[(1d100<@{${name}${rollValueAddition}}cs1cf>[[1+@{${name}${rollValueAddition}}]]cf100)]] Erfolge|Schadensreduktion, Schaden wurde durch ${name} von ?{Schaden} auf [[?{Schaden}*@{${name}${rollValueAddition}}/100]] reduziert.}`)
+      button(type="roll", name=`roll_${nameWithAdditions}`, value=`?{Was?|Gegenprobe, Rolle ${name} [[(1d100<@{${name}${rollValueAddition}}cs1cf>[[1+@{${name}${rollValueAddition}}]]cf100)]] Erfolge|Schadensreduktion, Schaden wurde durch ${name} von ?{Schaden} auf [[?{Schaden}*@{${name}${rollValueAddition}}/100]] reduziert.}`)&attributes(attributes)="Probe"
+        block
     when 'A'
-      button(type="roll", name=`roll_${name}`, value="/me insert use spez/Item Rolling here")
+      button(type="roll", name=`roll_${nameWithAdditions}`, value="/me insert use spez/Item Rolling here")&attributes(attributes)="Nutzen"
+        block
     when 'N'
-      button(type="roll", name=`roll_${name}`, value="/me insert Reg over night Rolling here")
+      button(type="roll", name=`roll_${nameWithAdditions}`, value="/me insert Reg over night Rolling here")&attributes(attributes)="Nutzen"
+        block
     when 'M'
-      button(type="roll", name=`roll_${name}`, value="/me insert Reg with meditation Rolling here")
+      button(type="roll", name=`roll_${nameWithAdditions}`, value="/me insert Reg with meditation Rolling here")&attributes(attributes)="Nutzen"
+        block
     when 'I'
-      button(type="roll", name=`roll_${name}`, value="/me insert initiative Rolling here")
+      button(type="roll", name=`roll_${nameWithAdditions}`, value="/me insert initiative Rolling here")&attributes(attributes)="Eintragen"
+        block
     default
-      select(name=`attr_${name}`, title=`@{${name}}`)&attributes(attributes)
+      select(name=`attr_${nameWithAdditions}`, title=`@{${nameWithAdditions}}`)&attributes(attributes)
         +optionList(type)&attributes(attributes)
 
 mixin outputField(name, type="i")
@@ -134,7 +159,7 @@ mixin visibility(visibility='a',type="span")
         .sheet-edit.sheet-display.sheet-show&attributes(attributes)
           block
 
-mixin attrField(name, visibility='a', editible='r', type="l")
+mixin attrField(name, nameWithAdditions,visibility='a', editible='r', type="l", content="")
   //- Creates a value field
     Parameters
       name: underlying attribute name (without "attr_")
@@ -155,18 +180,18 @@ mixin attrField(name, visibility='a', editible='r', type="l")
     case editible
       when 0
       when 'n'
-        +inputField(name, 'h')&attributes(attributes)
+        +inputField(name, nameWithAdditions, 'h')&attributes(attributes)=content
         +outputField(name, type).sheet-edit.sheet-display.sheet-show
       when 1
       when 'e'
-        +inputField(name, type, defaultValue=defaultValue)&attributes(attributes).sheet-edit
+        +inputField(name, nameWithAdditions, type, defaultValue=defaultValue)&attributes(attributes).sheet-edit=content
         +outputField(name, type).sheet-display.sheet-show
       when 2
       when 'r'
-        +inputField(name, type, defaultValue=defaultValue)&attributes(attributes).sheet-edit.sheet-display
+        +inputField(name, nameWithAdditions, type, defaultValue=defaultValue)&attributes(attributes).sheet-edit.sheet-display=content
         +outputField(name, type).sheet-show
       default
-        +inputField(name, type, defaultValue=defaultValue)&attributes(attributes).sheet-edit.sheet-display.sheet-show
+        +inputField(name, nameWithAdditions, type, defaultValue=defaultValue)&attributes(attributes).sheet-edit.sheet-display.sheet-show=content
     if type=='/'
       span="/"
     block
@@ -191,11 +216,17 @@ mixin makeItems(headers, rows)
         editible: see attrField
         type: class for attrField
   each attr in rows
-    if attr.length>3
-      +inputField(attr[0],attr[3]).sheet-invisible-button
-    +labeledBlock(attr).sheet-item.sheet-line
+    if (headers.length==1) & ((headers[0][3]=='?') | (headers[0][3]=='0'))
+      +labeledBlock([""," ",""]).sheet-item.sheet-line
+        +attrField(`${attr[0]}`,`${attr[0]}${headers[0][0][0]}`,headers[0][1],headers[0][2],headers[0][3],attr[1])&attributes(headers[0][4])
+    else
+      //-if attr.length>3
+      //-  +inputField(`${attr[0]}`,`${attr[0]}${action[0]}`,attr[3]).sheet-invisible-button
+      +labeledBlock(attr).sheet-item.sheet-line
+        if attr.length>3
+          +inputField(`${attr[0]}`,`${attr[0]}${action[0]}`,attr[3])
         each header,index in headers
-          +attrField(`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])
+          +attrField(`${attr[0]}`,`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])
             //-if index<headers.length-2
             //-  span="+"
             //-else if index<headers.length-1
@@ -212,35 +243,35 @@ mixin makeSingleItems(headers, attr)
       row: a single row
   each header,index in headers
     +visibility(header[1],"div").sheet-item
-      +labeledBlock(header[0])
-        +attrField(`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])&attributes(header[4])
+      if (header[3]=='?') | (header[3]=='0')
+        +attrField(`${attr[0]}`,`${attr[0]}${header[0][0]}`,header[1],header[2],header[3],header[0])&attributes(header[4])
+      else
+        +labeledBlock(header[0])
+          +attrField(`${attr[0]}`,`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])&attributes(header[4])
 
 mixin makeSingleItemFlexbox(headers, attr)
-  if attr.length>3
-    if attr[3]=="h"
-      +inputField(`${attr[0]}${show}`,attr[3]).toggle-show
-      .sheet-row-hider.sheet-flex.sheet-syncBottom
-        +makeSingleItems(headers, attr)
-    else if attr[3]!=""
-      +inputField(`${attr[0]}${action}`,attr[3]).sheet-invisible-button
-      .sheet-flex.sheet-syncBottom
-        +makeSingleItems(headers, attr)
-    else
-      .sheet-flex.sheet-syncBottom
-        +makeSingleItems(headers, attr)
+  if attr.length>4 & attr[4]=="h"
+    +inputField(`${attr[0]}`,`${attr[0]}${show[0]}`,attr[4]).toggle-show
+    .sheet-row-hider.sheet-flex.sheet-syncBottom
+      if attr[3]!=""
+        +inputField(`${attr[0]}`,`${attr[0]}${action[0]}`,attr[3])
+      +makeSingleItems(headers, attr)
   else
     .sheet-flex.sheet-syncBottom
+      if attr.length>3 & attr[3]!=""
+        +inputField(`${attr[0]}`,`${attr[0]}${action[0]}`,attr[3])
       +makeSingleItems(headers, attr)
 
 mixin makeTableRow(headers, attr)
-  .sheet-table-row
-    .sheet-table-item=attr[1]
-    each header,index in headers
-      - var defaultValue=""
-      if attr.length>4
-        - defaultValue = attr[4][index]
-      +visibility(header[1],"div")(class="sheet-table-item")
-        +attrField(`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])(value=`${defaultValue}`)&attributes(header[4])
+  .sheet-table-item=attr[1]
+    if attr.length>3 & attr[3]!=""
+      +inputField(`${attr[0]}`,`${attr[0]}${action[0]}`,attr[3])
+  each header,index in headers
+    - var defaultValue=""
+    if attr.length>5
+      - defaultValue = attr[5][index]
+    +visibility(header[1],"div")(class="sheet-table-item")
+      +attrField(`${attr[0]}`,`${attr[0]}${header[0][0]}`,header[1],header[2],header[3])(value=`${defaultValue}`)&attributes(header[4])
 
 mixin makeTable(headers, rows)
   //- Creates a table
@@ -259,18 +290,16 @@ mixin makeTable(headers, rows)
           +visibility(header[1],"div")(class="sheet-table-head")=header[0][1]
     .sheet-table-body
       each attr in rows
-        if attr.length>3
-          if attr[3]=="h"
-            +inputField(`${attr[0]}${show}`,attr[3]).toggle-show
-            .sheet-row-hider
+        if attr.length>4 & attr[4]=="h"
+            +inputField(`${attr[0]}`,`${attr[0]}${show[0]}`,attr[4])(value=1).sheet-toggle-show
+            .sheet-row-hider.sheet-table-row
               +makeTableRow(headers, attr)
-          else if attr[3]!=""
-            +inputField(`${attr[0]}${action}`,attr[3]).sheet-invisible-button
-            +makeTableRow(headers, attr)
-          else
-            +makeTableRow(headers, attr)
+        //-else if attr[3]!=""
+        //-  //-+inputField(`${attr[0]}`,`${attr[0]}${action[0]}`,attr[3]).sheet-invisible-button
+        //-  +makeTableRow(headers, attr)
         else
-          +makeTableRow(headers, attr)
+          .sheet-table-row
+            +makeTableRow(headers, attr)
 
 mixin generateAttributeArray(fieldCode, rows, type="Table", fieldNames=fieldCodeAdditions, fieldDefaults=fieldCodeDefaults)
   //- Visualize a attribute array
@@ -356,12 +385,13 @@ mixin fullArrayToJs(variables,arrayNameInJs)
   each variable in variables
     +valueToJs(variable)
     -myList.push(variable[2])
-  | 
-  | const 
-  != arrayNameInJs
-  | = [
-  != myList
-  |];
+  if arrayNameInJs!=""
+    | 
+    | const 
+    != arrayNameInJs
+    | = [
+    != myList
+    |];
 mixin plainArrayToJs(variables,arrayNameInJs)
   - var myList=[]
   each variable in variables

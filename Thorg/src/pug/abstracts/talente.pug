@@ -1,122 +1,149 @@
 -
   //Körperliche Talente?
+  const talent_Allkampf = ["allkampf","Allkampf","","U","h",[0,"",0,"","","","",0,1,0]];
+  const talent_Äxte_und_Beile = ["Äxte_und_beile","Äxte und Beile","","U","h",[0,"",0,"","","","",0,1,0]];
+  const talent_Kettenwaffen = ["kettenwaffen","Kettenwaffen","","U","h",[0,"",0,"","","","",0,1,0]];
+  const talent_Lanzenreiten = ["lanzenreiten","Lanzenreiten","","U","h",[0,"",0,"","","","",0,1,0]];
+  const talent_Messer_und_Dolche = ["messer_und_dolche","Messer und Dolche","","U","h",[0,"",0,"","","","",0,1,0]];
+  const talent_Peitsche = ["Peitsche","Peitsche","","U","h",[0,"",0,"","","","",0,1,0]];
+  const talent_Scharfe_Hiebwaffen = ["scharfe_hiebwaffen","Scharfe Hiebwaffen","","U","h",[0,"",0,"","","","",0,1,0]];
+  const talent_Schwerter = ["schwerter","Schwerter","","U","h",[0,"",0,"","","","",0,1,0]];
+  const talent_Speere_und_Stäbe = ["Speere_und_stäbe","Speere und Stäbe","","U","h",[0,"",0,"","","","",0,1,0]];
+  const talent_Stichwaffen = ["stichwaffen","Stichwaffen","","U","h",[0,"",0,"","","","",0,1,0]];
+  const talent_Stumpfe_Hiebwaffen = ["stumpfe_hiebwaffen","Stumpfe Hiebwaffen","","U","h",[0,"",0,"","","","",0,1,0]];
+  const talent_Zweihänder = ["zweihänder","Zweihänder","","U","h",[0,"",0,"","","","",0,1,0]];
 
-  const talent_Abrichten = ["abrichten","Abrichten","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Akrobatik = ["akrobatik","Akrobatik","","F",[0,"",0,"","","","",0,8,1]];
-  const talent_Alchemie = ["alchemie","Alchemie","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Alte_Sprachen = ["alte_sprachen","Alte Sprachen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Astronomie = ["astronomie/astrologie","Astronomie/Astrologie","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Bergbau = ["bergbau","Bergbau","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Bestechen = ["bestechen","Bestechen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Betören = ["betören","Betören","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Betteln = ["betteln","Betteln","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Bibliotheken_benutzen = ["bibliotheken_benutzen","Bibliotheken benutzen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Boote_fahren = ["boote_fahren","Boote fahren","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Charakter_erkennen = ["charakter_erkennen","Charakter erkennen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Dämonenwissen = ["dämonenwissen","Dämonenwissen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Drachenreiten = ["drachenreiten","Drachenreiten","","F",[0,"",0,"","","","",0,8,1]];
-  const talent_Etikette = ["etikette","Etikette","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Etwas_verstecken = ["etwas_verstecken","Etwas verstecken","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Fährtensuche = ["fährtensuche","Fährtensuche","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Fahrzeuge_lenken = ["fahrzeuge_lenken","Fahrzeuge lenken","","F",[0,"",0,"","","","",0,8,1]];
-  const talent_Fallenstellen_und_finden = ["fallenstellen_und_finden","Fallenstellen und finden","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Falschspiel = ["falschspiel","Falschspiel","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Feilschen = ["feilschen","Feilschen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Fesseln_und_Entfesseln = ["fesseln_und_entfesseln","Fesseln und Entfesseln","","F",[0,"",0,"","","","",0,8,1]];
-  const talent_Fischen = ["fischen","Fischen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Gassenwissen = ["gassenwissen","Gassenwissen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Gefahreninstinkt = ["gefahreninstinkt","Gefahreninstinkt","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Gegenstände_reparieren = ["gegenstände_reparieren","Gegenstände reparieren","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Geographie = ["geographie","Geographie","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Geschichtswissen = ["geschichtswissen","Geschichtswissen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Gifte_heilen = ["gifte_heilen","Gifte heilen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Götter_und_Kulte = ["götter_und_kulte","Götter und Kulte","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Heraldik = ["heraldik","Heraldik","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Karten_zeichnen = ["karten_zeichnen","Karten zeichnen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Klettern = ["klettern","Klettern","","F",[0,"",0,"","","","",0,8,1]];
-  const talent_Kochen = ["kochen","Kochen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Körperbeherrschung = ["körperbeherrschung","Körperbeherrschung","","F",[0,"",0,"","","","",0,8,1]];
-  const talent_Krankheiten_heilen = ["krankheiten_heilen","Krankheiten heilen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Kriegskunst = ["kriegskunst","Kriegskunst","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Kryptographie = ["kryptographie","Kryptographie","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Lehren = ["lehren","Lehren","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Lesen_und_Schreiben = ["lesen_und_schreiben","Lesen und Schreiben","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Lippenlesen = ["lippenlesen","Lippenlesen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Lügen = ["lügen","Lügen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Magiekunde = ["magiekunde","Magiekunde","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Magiersprachen = ["magiersprachen","Magiersprachen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Malen_und_zeichnen = ["malen_und_zeichnen","Malen und zeichnen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Mechanik = ["mechanik","Mechanik","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Meditation = ["meditation","Meditation","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Menschenführung = ["menschenführung","Menschenführung","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Minnekünste = ["minnekünste","Minnekünste","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Musizieren = ["musizieren","Musizieren","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Orientierung = ["orientierung","Orientierung","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Pflanzenkunde = ["Pflanzenkunde","Pflanzenkunde","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Rechnen = ["rechnen","Rechnen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Rechtskunde = ["rechtskunde","Rechtskunde","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Reiten = ["reiten","Reiten","","F",[0,"",0,"","","","",0,8,1]];
-  const talent_Rhetorik = ["rhetorik","Rhetorik","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Runen_lesen = ["runen_lesen","Runen lesen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Schätzen = ["schätzen","Schätzen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Schleichen = ["schleichen","Schleichen","","F",[0,"",0,"","","","",0,8,1]];
-  const talent_Schlösser_knacken = ["schlösser_knacken","Schlösser knacken","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Schwimmen = ["schwimmen","Schwimmen","","F",[0,"",0,"","","","",0,8,1]];
-  const talent_Seelenheilung = ["seelenheilung","Seelenheilung","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Selbstbeherrschung = ["selbstbeherrschung","Selbstbeherrschung","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Sich_verkleiden = ["sich_verkleiden","Sich verkleiden","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Sich_verstecken = ["sich_verstecken","Sich verstecken","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Singen = ["singen","Singen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Sinnesschärfe = ["sinnesschärfe","Sinnesschärfe","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Spot_Hidden = ["spot_hidden","Spot Hidden","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Sprachen_kennen = ["sprachen_kennen","Sprachen kennen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Springen = ["springen","Springen","","F",[0,"",0,"","","","",0,8,1]];
-  const talent_Staatskunde = ["staatskunde","Staatskunde","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Tanzen = ["tanzen","Tanzen","","F",[0,"",0,"","","","",0,8,1]];
-  const talent_Taschendiebstahl = ["taschendiebstahl","Taschendiebstahl","","F",[0,"",0,"","","","",0,8,1]];
-  const talent_Tiere_heilen = ["tiere_heilen","Tiere heilen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Tierkunde = ["tierkunde","Tierkunde","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Überzeugen = ["Überzeugen","Überzeugen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Verhörmethoden = ["verhörmethoden","Verhörmethoden","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Wettervorhersage = ["wettervorhersage","Wettervorhersage","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Wildnisleben = ["wildnisleben","Wildnisleben","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Wunden_heilen = ["wunden_heilen","Wunden heilen","","F",[0,"",0,"","","","",0,8,0]];
-  const talent_Zechen = ["zechen","Zechen","","F",[0,"",0,"","","","",0,8,1]];
+  const talent_Armbrust = ["armbrust","Armbrust","","U","h",[0,"",0,"","","","",0,2,0]];
+  const talent_Blasrohr = ["blasrohr","Blasrohr","","U","h",[0,"",0,"","","","",0,2,0]];
+  const talent_Bogen = ["bogen","Bogen","","U","h",[0,"",0,"","","","",0,2,0]];
+  const talent_Schleuder = ["schleuder","Schleuder","","U","h",[0,"",0,"","","","",0,2,0]];
+  const talent_Wurfäxte_und_beile = ["wurfäxte_und_beile","Wurfäxte und –beile","","U","h",[0,"",0,"","","","",0,2,0]];
+  const talent_Wurfmesser_und_dolche = ["wurfmesser_und_dolche","Wurfmesser und –dolche","","U","h",[0,"",0,"","","","",0,2,0]];
+  const talent_Wurfspeere = ["wurfspeere","Wurfspeere","","U","h",[0,"",0,"","","","",0,2,0]];
+  const talent_Zielen = ["zielen","Zielen","","U","h",[0,"",0,"","","","",0,2,0]];
 
-  const talent_Beidhändig = ["beidhändig","Beidhändig","","F",[0,"",0,"","","","",0,3,1]];
-  const talent_Bewustlos_schlagen = ["bewustlos_schlagen","Bewußtlos schlagen","","F",[0,"",0,"","","","",0,3,1]];
-  const talent_Entwaffnen = ["entwaffnen","Entwaffnen","","F",[0,"",0,"","","","",0,3,1]];
-  const talent_Kampfstil_erkennen = ["kampfstil_erkennen","Kampfstil erkennen","","F",[0,"",0,"","","","",0,3,0]];
-  const talent_Meucheln = ["meucheln","Meucheln","","F",[0,"",0,"","","","",0,3,1]];
-  const talent_Rüstungsgewöhnung = ["rüstungsgewöhnung","Rüstungsgewöhnung","","F",[0,"",0,"","","","",0,3,0]];
-  const talent_Rundumsicht = ["rundumsicht","Rundumsicht","","F",[0,"",0,"","","","",0,3,0]];
-  const talent_Schildkampf = ["schildkampf","Schildkampf","","F",[0,"",0,"","","","",0,3,0]];
-  const talent_Schwachstelle_erkennen = ["schwachstelle_erkennen","Schwachstelle erkennen","","F",[0,"",0,"","","","",0,3,1]];
+  const talent_Beidhändig = ["beidhändig","Beidhändig","","U","h",[0,"",0,"","","","",0,3,1]];
+  const talent_Bewustlos_schlagen = ["bewustlos_schlagen","Bewußtlos schlagen","","U","h",[0,"",0,"","","","",0,3,1]];
+  const talent_Entwaffnen = ["entwaffnen","Entwaffnen","","U","h",[0,"",0,"","","","",0,3,1]];
+  const talent_Kampfstil_erkennen = ["kampfstil_erkennen","Kampfstil erkennen","","U","h",[0,"",0,"","","","",0,3,0]];
+  const talent_Meucheln = ["meucheln","Meucheln","","U","h",[0,"",0,"","","","",0,3,1]];
+  const talent_Rüstungsgewöhnung = ["rüstungsgewöhnung","Rüstungsgewöhnung","","U","h",[0,"",0,"","","","",0,3,0]];
+  const talent_Rundumsicht = ["rundumsicht","Rundumsicht","","U","h",[0,"",0,"","","","",0,3,0]];
+  const talent_Schildkampf = ["schildkampf","Schildkampf","","U","h",[0,"",0,"","","","",0,3,0]];
+  const talent_Schwachstelle_erkennen = ["schwachstelle_erkennen","Schwachstelle erkennen","","U","h",[0,"",0,"","","","",0,3,1]];
 
-
-  const talent_Armbrust = ["armbrust","Armbrust","","F",[0,"",0,"","","","",0,2,0]];
-  const talent_Blasrohr = ["blasrohr","Blasrohr","","F",[0,"",0,"","","","",0,2,0]];
-  const talent_Bogen = ["bogen","Bogen","","F",[0,"",0,"","","","",0,2,0]];
-  const talent_Schleuder = ["schleuder","Schleuder","","F",[0,"",0,"","","","",0,2,0]];
-  const talent_Wurfäxte_und_beile = ["wurfäxte_und_beile","Wurfäxte und –beile","","F",[0,"",0,"","","","",0,2,0]];
-  const talent_Wurfmesser_und_dolche = ["wurfmesser_und_dolche","Wurfmesser und –dolche","","F",[0,"",0,"","","","",0,2,0]];
-  const talent_Wurfspeere = ["wurfspeere","Wurfspeere","","F",[0,"",0,"","","","",0,2,0]];
-  const talent_Zielen = ["zielen","Zielen","","F",[0,"",0,"","","","",0,2,0]];
-
-  const talent_Allkampf = ["allkampf","Allkampf","","F",[0,"",0,"","","","",0,1,0]];
-  const talent_Äxte_und_Beile = ["Äxte_und_beile","Äxte und Beile","","F",[0,"",0,"","","","",0,1,0]];
-  const talent_Kettenwaffen = ["kettenwaffen","Kettenwaffen","","F",[0,"",0,"","","","",0,1,0]];
-  const talent_Lanzenreiten = ["lanzenreiten","Lanzenreiten","","F",[0,"",0,"","","","",0,1,0]];
-  const talent_Messer_und_Dolche = ["messer_und_dolche","Messer und Dolche","","F",[0,"",0,"","","","",0,1,0]];
-  const talent_Peitsche = ["Peitsche","Peitsche","","F",[0,"",0,"","","","",0,1,0]];
-  const talent_Scharfe_Hiebwaffen = ["scharfe_hiebwaffen","Scharfe Hiebwaffen","","F",[0,"",0,"","","","",0,1,0]];
-  const talent_Schwerter = ["schwerter","Schwerter","","F",[0,"",0,"","","","",0,1,0]];
-  const talent_Speere_und_Stäbe = ["Speere_und_stäbe","Speere und Stäbe","","F",[0,"",0,"","","","",0,1,0]];
-  const talent_Stichwaffen = ["stichwaffen","Stichwaffen","","F",[0,"",0,"","","","",0,1,0]];
-  const talent_Stumpfe_Hiebwaffen = ["stumpfe_hiebwaffen","Stumpfe Hiebwaffen","","F",[0,"",0,"","","","",0,1,0]];
-  const talent_Zweihänder = ["zweihänder","Zweihänder","","F",[0,"",0,"","","","",0,1,0]];
+  const talent_Abrichten = ["abrichten","Abrichten","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Akrobatik = ["akrobatik","Akrobatik","","F","h",[0,"",0,"","","","",0,99,1]];
+  const talent_Alchemie = ["alchemie","Alchemie","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Alte_Sprachen = ["alte_sprachen","Alte Sprachen","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Astronomie = ["astronomie","Astronomie/Astrologie","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Bergbau = ["bergbau","Bergbau","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Bestechen = ["bestechen","Bestechen","","F","h",[0,"",0,"","","","",0,6,0]];
+  const talent_Betören = ["betören","Betören","","F","h",[0,"",0,"","","","",0,6,0]];
+  const talent_Betteln = ["betteln","Betteln","","F","h",[0,"",0,"","","","",0,6,0]];
+  const talent_Bibliotheken_benutzen = ["bibliotheken_benutzen","Bibliotheken benutzen","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Boote_fahren = ["boote_fahren","Boote fahren","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Charakter_erkennen = ["charakter_erkennen","Charakter erkennen","","F","h",[0,"",0,"","","","",0,6,0]];
+  const talent_Dämonenwissen = ["dämonenwissen","Dämonenwissen","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Drachenreiten = ["drachenreiten","Drachenreiten","","F","h",[0,"",0,"","","","",0,99,1]];
+  const talent_Etikette = ["etikette","Etikette","","F","h",[0,"",0,"","","","",0,6,0]];
+  const talent_Etwas_verstecken = ["etwas_verstecken","Etwas verstecken","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Fährtensuche = ["fährtensuche","Fährtensuche","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Fahrzeuge_lenken = ["fahrzeuge_lenken","Fahrzeuge lenken","","F","h",[0,"",0,"","","","",0,4,1]];
+  const talent_Fallenstellen_und_finden = ["fallenstellen_und_finden","Fallenstellen und finden","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Falschspiel = ["falschspiel","Falschspiel","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Feilschen = ["feilschen","Feilschen","","F","h",[0,"",0,"","","","",0,6,0]];
+  const talent_Fesseln_und_Entfesseln = ["fesseln_und_entfesseln","Fesseln und Entfesseln","","F","h",[0,"",0,"","","","",0,4,1]];
+  const talent_Fischen = ["fischen","Fischen","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Gassenwissen = ["gassenwissen","Gassenwissen","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Gefahreninstinkt = ["gefahreninstinkt","Gefahreninstinkt","","F","h",[0,"",0,"","","","",0,99,0]];
+  const talent_Gegenstände_reparieren = ["gegenstände_reparieren","Gegenstände reparieren","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Geographie = ["geographie","Geographie","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Geschichtswissen = ["geschichtswissen","Geschichtswissen","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Gifte_heilen = ["gifte_heilen","Gifte heilen","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Götter_und_Kulte = ["götter_und_kulte","Götter und Kulte","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Heraldik = ["heraldik","Heraldik","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Karten_zeichnen = ["karten_zeichnen","Karten zeichnen","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Klettern = ["klettern","Klettern","","F","h",[0,"",0,"","","","",0,4,1]];
+  const talent_Kochen = ["kochen","Kochen","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Körperbeherrschung = ["körperbeherrschung","Körperbeherrschung","","F","h",[0,"",0,"","","","",0,99,1]];
+  const talent_Krankheiten_heilen = ["krankheiten_heilen","Krankheiten heilen","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Kriegskunst = ["kriegskunst","Kriegskunst","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Kryptographie = ["kryptographie","Kryptographie","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Lehren = ["lehren","Lehren","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Lesen_und_Schreiben = ["lesen_und_schreiben","Lesen und Schreiben","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Lippenlesen = ["lippenlesen","Lippenlesen","","F","h",[0,"",0,"","","","",0,6,0]];
+  const talent_Lügen = ["lügen","Lügen","","F","h",[0,"",0,"","","","",0,6,0]];
+  const talent_Magiekunde = ["magiekunde","Magiekunde","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Magiersprachen = ["magiersprachen","Magiersprachen","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Malen_und_zeichnen = ["malen_und_zeichnen","Malen und zeichnen","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Mechanik = ["mechanik","Mechanik","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Meditation = ["meditation","Meditation","","F","h",[0,"",0,"","","","",0,99,0]];
+  const talent_Menschenführung = ["menschenführung","Menschenführung","","F","h",[0,"",0,"","","","",0,6,0]];
+  const talent_Minnekünste = ["minnekünste","Minnekünste","","F","h",[0,"",0,"","","","",0,6,0]];
+  const talent_Musizieren = ["musizieren","Musizieren","","F","h",[0,"",0,"","","","",0,6,0]];
+  const talent_Orientierung = ["orientierung","Orientierung","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Pflanzenkunde = ["Pflanzenkunde","Pflanzenkunde","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Rechnen = ["rechnen","Rechnen","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Rechtskunde = ["rechtskunde","Rechtskunde","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Reiten = ["reiten","Reiten","","F","h",[0,"",0,"","","","",0,99,1]];
+  const talent_Rhetorik = ["rhetorik","Rhetorik","","F","h",[0,"",0,"","","","",0,6,0]];
+  const talent_Runen_lesen = ["runen_lesen","Runen lesen","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Schätzen = ["schätzen","Schätzen","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Schleichen = ["schleichen","Schleichen","","F","h",[0,"",0,"","","","",0,4,1]];
+  const talent_Schlösser_knacken = ["schlösser_knacken","Schlösser knacken","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Schwimmen = ["schwimmen","Schwimmen","","F","h",[0,"",0,"","","","",0,99,1]];
+  const talent_Seelenheilung = ["seelenheilung","Seelenheilung","","F","h",[0,"",0,"","","","",0,6,0]];
+  const talent_Selbstbeherrschung = ["selbstbeherrschung","Selbstbeherrschung","","F","h",[0,"",0,"","","","",0,99,0]];
+  const talent_Sich_verkleiden = ["sich_verkleiden","Sich verkleiden","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Sich_verstecken = ["sich_verstecken","Sich verstecken","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Singen = ["singen","Singen","","F","h",[0,"",0,"","","","",0,6,0]];
+  const talent_Sinnesschärfe = ["sinnesschärfe","Sinnesschärfe","","F","h",[0,"",0,"","","","",0,99,0]];
+  const talent_Spot_Hidden = ["spot_hidden","Spot Hidden","","F","h",[0,"",0,"","","","",0,99,0]];
+  const talent_Sprachen_kennen = ["sprachen_kennen","Sprachen kennen","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Springen = ["springen","Springen","","F","h",[0,"",0,"","","","",0,99,1]];
+  const talent_Staatskunde = ["staatskunde","Staatskunde","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Tanzen = ["tanzen","Tanzen","","F","h",[0,"",0,"","","","",0,4,1]];
+  const talent_Taschendiebstahl = ["taschendiebstahl","Taschendiebstahl","","F","h",[0,"",0,"","","","",0,4,1]];
+  const talent_Tiere_heilen = ["tiere_heilen","Tiere heilen","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Tierkunde = ["tierkunde","Tierkunde","","F","h",[0,"",0,"","","","",0,5,0]];
+  const talent_Überzeugen = ["Überzeugen","Überzeugen","","F","h",[0,"",0,"","","","",0,6,0]];
+  const talent_Verhörmethoden = ["verhörmethoden","Verhörmethoden","","F","h",[0,"",0,"","","","",0,6,0]];
+  const talent_Wettervorhersage = ["wettervorhersage","Wettervorhersage","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Wildnisleben = ["wildnisleben","Wildnisleben","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Wunden_heilen = ["wunden_heilen","Wunden heilen","","F","h",[0,"",0,"","","","",0,4,0]];
+  const talent_Zechen = ["zechen","Zechen","","F","h",[0,"",0,"","","","",0,99,1]];
 
   const TalentList=[
+    talent_Allkampf,
+    talent_Äxte_und_Beile,
+    talent_Kettenwaffen,
+    talent_Lanzenreiten,
+    talent_Messer_und_Dolche,
+    talent_Peitsche,
+    talent_Scharfe_Hiebwaffen,
+    talent_Schwerter,
+    talent_Speere_und_Stäbe,
+    talent_Stichwaffen,
+    talent_Stumpfe_Hiebwaffen,
+    talent_Zweihänder,
+    talent_Armbrust,
+    talent_Blasrohr,
+    talent_Bogen,
+    talent_Schleuder,
+    talent_Wurfäxte_und_beile,
+    talent_Wurfmesser_und_dolche,
+    talent_Wurfspeere,
+    talent_Zielen,
+    talent_Beidhändig,
+    talent_Bewustlos_schlagen,
+    talent_Entwaffnen,
+    talent_Kampfstil_erkennen,
+    talent_Meucheln,
+    talent_Rüstungsgewöhnung,
+    talent_Rundumsicht,
+    talent_Schildkampf,
+    talent_Schwachstelle_erkennen,
     talent_Abrichten,
     talent_Akrobatik,
     talent_Alchemie,
@@ -197,34 +224,5 @@
     talent_Wettervorhersage,
     talent_Wildnisleben,
     talent_Wunden_heilen,
-    talent_Zechen,
-    talent_Beidhändig,
-    talent_Bewustlos_schlagen,
-    talent_Entwaffnen,
-    talent_Kampfstil_erkennen,
-    talent_Meucheln,
-    talent_Rüstungsgewöhnung,
-    talent_Rundumsicht,
-    talent_Schildkampf,
-    talent_Schwachstelle_erkennen,
-    talent_Armbrust,
-    talent_Blasrohr,
-    talent_Bogen,
-    talent_Schleuder,
-    talent_Wurfäxte_und_beile,
-    talent_Wurfmesser_und_dolche,
-    talent_Wurfspeere,
-    talent_Zielen,
-    talent_Allkampf,
-    talent_Äxte_und_Beile,
-    talent_Kettenwaffen,
-    talent_Lanzenreiten,
-    talent_Messer_und_Dolche,
-    talent_Peitsche,
-    talent_Scharfe_Hiebwaffen,
-    talent_Schwerter,
-    talent_Speere_und_Stäbe,
-    talent_Stichwaffen,
-    talent_Stumpfe_Hiebwaffen,
-    talent_Zweihänder
+    talent_Zechen
   ]

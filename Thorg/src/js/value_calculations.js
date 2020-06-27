@@ -6,20 +6,45 @@ fields = the name of the attribute field to be summed
       or an array of attributes: ['weight','number','equipped']
 evaluateFn = a function that takes an array of objects(v[rep.Section lines]{id: lineid, fields:fieldsvalue}) and evaluates the rep section fields.
 */
-const getSectionFields = (section, fields, evaluateFn) => {
+const getSectionFields = (section,nonsectionrows, fields, evaluateFn) => {
     if (!Array.isArray(fields)) fields = [fields];
     getSectionIDs(`repeating_${section}`, idArray => {
-        const attrArray = idArray.reduce( (m,id) => [...m, ...(fields.map(field => getRepSectionFieldString(section,id,field)))],[]);
+        var attrArray = idArray.reduce( (m,id) => [...m, ...(fields.map(field => getRepSectionFieldString(section,id,field)))],[]);
+        attrArray.concat(nonsectionrows.reduce( (m,id) => [...m, ...(fields.map(field => id+field))],[]));
         getAttrs(attrArray, v => {
             const getArrayValue = id => {
-                var result={"id":id};
+                var result={"id":getRepSectionFieldString(section,id,"")};
                 for (field of fields){
-                    result[field]=getRepSectionFieldString(section,id,field);
+                    result[field]=v[getRepSectionFieldString(section,id,field)];
                 }
                 return result;
             }; 
             const allValues = idArray.map(getArrayValue);
             evaluateFn(allValues);
+        });
+    });
+};
+const addToRepItem = (section, idField, destinationField, searchedId, increment=1) => {
+    getSectionIDs(`repeating_${section}`, idArray => {
+        const fields=[idField,destinationField];
+        var attrArray = idArray.reduce( (m,id) => [...m, ...(fields.map(field => getRepSectionFieldString(section,id,field)))],[]);
+        getAttrs(attrArray, v => {
+            var foundid="";
+            for (id of idArray){
+                if (searchedId==v[getRepSectionFieldString(section,id,idField)]){
+                    foundid=id;
+                    break;
+                }
+            }
+            if (foundid){
+                setAttrs({[getRepSectionFieldString(section,foundid,destinationField)]: getRepSectionFieldString(section,foundid,destinationField)+increment});
+            }else{
+                var newrowid = generateRowID();
+                var newrowattrs = {};
+                newrowattrs[getRepSectionFieldString(section,newrowid,destinationField)] = increment;
+                newrowattrs[getRepSectionFieldString(section,newrowid,idField)] = searchedId;
+                setAttrs(newrowattrs);
+            }
         });
     });
 };
@@ -84,7 +109,7 @@ function fuse2Bonis(bonus1, bonus2, numberOnly) {
 
 const calcLevelUp = (attributes) => {
     if (!Array.isArray(attributes)) attributes = [attributes];
-    getSectionFields(levelUpSection, [nameingField, levelUpValue], (allValues) => {
+    getSectionFields(levelUpSection, [], [nameingField, levelUpValue], (allValues) => {
         var result = {};
         for (attribute of attributes) {
             result[attribute+levelUp] = filterNames(allValues, nameingField, attribute).reduce((total, values) => total + parseFloat(values[levelUpValue]),0);
@@ -95,7 +120,7 @@ const calcLevelUp = (attributes) => {
 
 const calcModAutoValue = (attributes, numberOnly=0) => {
     if (!Array.isArray(attributes)) attributes = [attributes];
-    getSectionFields(boniSection, [nameingField, boniValue, boniActive], (allValues) => {
+    getSectionFields(boniSection, bonusRows, [nameingField, boniValue, boniActive], (allValues) => {
         var result = {};
         for (attribute of attributes) {
             const filterFn = (value) => (value[nameingField]==attribute && value[boniActive]);
@@ -131,7 +156,7 @@ const calcEquip = () => {
     //EquipSummaryMalus = Lastenstufe-Tragkraftstufe-3 in [0,5,10,25,50,99999]
 };
 const calcExp = () => {
-    getSectionFields(expSection, [expNumber, expBase, expResult], (allValuesAuto) => {
+    getSectionFields(expSection, [],[expNumber, expBase, expResult], (allValuesAuto) => {
         //var result = {};
         //result[getRepSectionFieldString(expSection,ID,expResult)] = allValuesAuto.reduce((total, values) => total + parseFloat(values[1]),0);
         const expsTallent = [120, 120+60, 30];
@@ -143,12 +168,12 @@ const calcExp = () => {
         for (values of allValuesAuto) {
             var current = getAutoExp(parseFloat(values[expNumber]),values[expBase]?expsTallent:expsMagic);
             autoExpSums += current;
-            result[getRepSectionFieldString(expSection, values.id, expResult)] = current;
+            result[values.id+expResult] = current;
         }
-        getSectionFields(userExpSection, [expResult], (allValuesManuell) => {
+        getSectionFields(userExpSection, [], [expResult], (allValuesManuell) => {
             const manuelExpSum = allValuesManuell.reduce((total, values) => total + parseFloat(values[expResult]),0);
             result[ExpSummarySum] = manuelExpSum+autoExpSum;
-            getSectionFields(levelUpSection, [EPKosten], (allValuesLevelUp) => {
+            getSectionFields(levelUpSection, [], [EPKosten], (allValuesLevelUp) => {
                 result[ExpSummaryInvested] = allValuesLevelUp.reduce((total, values) => total + parseFloat(values[EPKosten]),0);
                 result[ExpSummaryOpen] = result[ExpSummarySum] - result[ExpSummaryInvested];
                 setAttrs(result);
@@ -210,57 +235,69 @@ const evalUnaryOperation = (first, operation, addition) => {
     return result;
 };
 const evalBonusText = (destination,text,active,changeingValue) => {
-    var attributes = text.match(/{[^}]*}/g);
-    const attrArray = attributes.reduce((m,id) => [...m, ...(id.substring(1,id.length-1))],[]);
-    getAttrs(attrArray, v => {
-        var operations = text.split(';');
-        var addition = operations.pop();
-        var unaryOperand = operations.pop();
-        var i=0;
-        var preValue=0;
-        var roll=0;
-    
-        firstValue=parseFloat(operations[0]);
-        operations.shift();
-        if (!firstValue){
-            firstValue=parseFloat(v[attrArray[i]]);
-            i++;
-        }
-        while (length(operations)) {
-            secondValue=parseFloat(operations[0]);
+    var attributesOfAttributes = text.match(/{{[^}]*}}/g);
+    if (attributesOfAttributes!=null){
+        const attrArray = attributesOfAttributes.reduce((m,id) => [...m, ...(id.substring(2,id.length-2))],[]);
+        getAttrs(attrArray, v => {
+            var num=0
+            var res = text.replace(/{{[^}]*}}/g, function (x) {
+                return '{'+attrArray[num++]+'}';
+            });
+            evalBonusText(destination,res,active,changeingValue);
+        });
+    }else{
+        var attributes = text.match(/{[^}]*}/g);
+        const attrArray = attributes.reduce((m,id) => [...m, ...(id.substring(1,id.length-1))],[]);
+        getAttrs(attrArray, v => {
+            var operations = text.split(';');
+            var addition = operations.pop();
+            var unaryOperand = operations.pop();
+            var i=0;
+            var preValue=0;
+            var roll=0;
+        
+            firstValue=parseFloat(operations[0]);
             operations.shift();
-            if (!secondValue) {
-                secondValue=parseFloat(v[attrArray[i]]);
+            if (!firstValue){
+                firstValue=parseFloat(v[attrArray[i]]);
                 i++;
             }
-            var operation=operations[0];
-            operations.shift()     
-            if (operation=="w") {
-                preValue=firstValue;
-                firstValue=secondValue;
-                roll+=1;
-            } else {
-                operations=operation.split(',')
-                firstValue=evalOneOperation(firstValue,secondValue,operations[0])
-                if (operations[1]){
-                    firstValue=evalUnaryOperation(firstValue,operations[1],"")
+            while (length(operations)) {
+                secondValue=parseFloat(operations[0]);
+                operations.shift();
+                if (!secondValue) {
+                    secondValue=parseFloat(v[attrArray[i]]);
+                    i++;
+                }
+                var operation=operations[0];
+                operations.shift()     
+                if (operation=="w") {
+                    preValue=firstValue;
+                    firstValue=secondValue;
+                    roll+=1;
+                } else {
+                    operations=operation.split(',')
+                    firstValue=evalOneOperation(firstValue,secondValue,operations[0])
+                    if (operations[1]){
+                        firstValue=evalUnaryOperation(firstValue,operations[1],"")
+                    }
                 }
             }
-        }
-        if ((roll==1) && preValue) {
-            setAttrs({[destination]: evalUnaryOperation(firstValue,preValue,addition)}, "silent", () => calcModAutoValue(changeingValue));    
-        } else if (!roll) {
-            setAttrs({[destination]: evalUnaryOperation(firstValue,unaryOperand,addition)}, "silent", () => calcModAutoValue(changeingValue));    
-        }
-    });
+            if ((roll==1) && preValue) {
+                setAttrs({[destination]: evalUnaryOperation(firstValue,preValue,addition)}, "silent", () => calcModAutoValue(changeingValue));    
+            } else if (!roll) {
+                setAttrs({[destination]: evalUnaryOperation(firstValue,unaryOperand,addition)}, "silent", () => calcModAutoValue(changeingValue));    
+            }
+        });
+    }
 };
 
 const calculateChangesForAttribute = (changedAttribute) => {
-    getSectionFields(boniSection, [nameingField, boniActive, boniText], (allValues) => {
+    getSectionFields(boniSection, bonusRows, [nameingField, boniActive, boniText], (allValues) => {
         const filterFn = (value) => (value[boniText].search("{"+changedAttribute+"}") != -1);
         var filtered = allValues.filter(filterFn);
         for (v of filtered){
-            evalBonusText(getRepSectionFieldString(boniSection, v.id, boniValue), value[boniText], value[boniActive], value[nameingField]);
+            evalBonusText(v.id+boniValue, value[boniText], value[boniActive], value[nameingField]);
         }
     });
 };

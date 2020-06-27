@@ -29,7 +29,8 @@
                       boniActive,
                       boniText,
                       boniValue];
-    const boniFieldCode = ['rel','rel','rel','eet','rem'];
+    const boniFieldCode = ['rel','rel','rec','eel','rnm'];
+    const boniFieldCodeDefaults = ['rel','rel','rec','eel','rnm'];// = ['rnl','rnl','rec','ent','rnm'];
 
     //Exp
     const expSection=["autoexp","Automatische Erfahrungspunkte","expSection"];
@@ -127,6 +128,7 @@
     const weaponSection=["weapon","Waffen","weaponSection"];
     
     const weaponTalent=["talent","zugehöriges Talent","weaponTalent"];
+    const weaponSpez=["talent","zugehöriges Talent","weaponTalent"];
     // RW	TP Würfel	TP Bonus	RK	Talent	AT	PA	AU-Kosten	Meister-AT	Meister-PA	Abnutzung
     const weaponFields=[nameField,
                        Description,
@@ -152,3 +154,38 @@
     //		Waffen: RW, TP,TP+,RK,Tallent,AT,PA,AU-Kosten,MAt,MPa(nur 1 Aktiv?!)
     //		Rüstung: Schutz+Behinderung+belegt Rüstungsslots(nur 1 Rüstung pro Slot?)
 
+    relevantValues.concat([
+        nameingField,
+        nameField,
+        EPKosten,
+        Description,
+        levelUpSection,
+        levelUpValue,
+        boniSection,
+        boniOrigin,
+        boniActive,
+        boniText,
+        boniValue,
+        expSection,
+        expNumber,
+        expBase,
+        expResult,
+        userExpSection,
+        userExpResult,
+        SpezSection,
+        SpezCount,
+        SpezMax,
+        equipSection,
+        equipNumber,
+        equipBase,
+        equipResult,
+        equipLocation,
+        equipLocation2,
+        armorSection,
+        RSValue,
+        RKValue,
+        armorMalus,
+        armorType,
+        weaponSection,
+        weaponTalent
+    ]);

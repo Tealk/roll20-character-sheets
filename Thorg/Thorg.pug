@@ -9,8 +9,8 @@ include src/pug/abstracts/referableValues.pug
 include src/pug/abstracts/otherSingleValues.pug
 include src/pug/abstracts/OptionLists.pug
 include src/pug/abstracts/repetedSections.pug
-include src/pug/abstracts/database.pug
 include src/pug/abstracts/talente.pug
+include src/pug/abstracts/database.pug
 
 //- INCLUDES
   =============================
@@ -20,10 +20,7 @@ include src/pug/abstracts/mixins.pug
 //-  =============================
 //-input.type(name='attr_sheet_type' type='hidden' value='character')
 //-input.display_string(name='attr_character_settings' type='hidden' value='')
-input(type="checkbox", class="sheet-editmode", checked)
-span="Edit"
-input(type="checkbox", class="sheet-showmode")
-span="Show"
+include src/pug/00Header.pug
 //-      
 //-//-NPC SHEET
 //-  =============================
@@ -43,13 +40,19 @@ include src/pug/pages/01Core.pug
 //-
 //-//-ROLL TEMPLATE
 //-  =============================
-//-include src/pug/components/rolltemplates.pug
+include src/pug/components/rolltemplates.pug
 //-
 //- SCRIPTS
 script(type="text/worker")
   +valueToJs(EquipSummaryLevel)
+  +fullArrayToJs(relevantValues,"")
+
+  +valueToJs(action)
+  +valueToJs(show)
+  +valueToJs(levelUpButtonAddition)
+  +valueToJs(usingButtonAddition)
   +fullArrayToJs(fieldCodeAdditions,"fieldCodeAdditions")
-  +plainArrayToJs(allRegularListsButTalents,"allRegularListsButTalents")
+
   +plainArrayToJs(add12To7And34To8m,"add12To7And34To8m")
   +plainArrayToJs(add1234To7,"add1234To7")
   +plainArrayToJs(add134Times5To7,"add134Times5To7")
@@ -57,10 +60,16 @@ script(type="text/worker")
   +plainArrayToJs(add14To7,"add14To7")
   +plainArrayToJs(add14To7m,"add14To7m")
   +plainArrayToJs(add34Times5To7,"add34Times5To7")
-  +plainArrayOfArraysToJs(defaultBoni,"defaultBoni")
+
+  +plainArrayToJs(levelUpButtons,"levelUpButtons")
+  +plainArrayToJs(usingButtons,"usingButtons")
+
+  +plainArrayToJs(bonusRows,"bonusRows")
+
+  +plainArrayToJs(buttonlist,"buttonlist")
   |
   |
   |
+  //-include src/js/database.js
   include src/js/value_calculations.js
-  include src/js/repeting_calculations.js
   include src/js/connections.js

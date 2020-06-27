@@ -1,0 +1,22 @@
+input(type="checkbox", class="sheet-editmode")
+span="Edit"
+input(type="checkbox", class="sheet-showmode")
+span="Show"
+-
+  const buttonlist = [["character","Character"],
+                      ["talents","Talente&Spezialfähigkeiten"],
+                      ["equip","Ausrüstung"],
+                      ["exp","Erfahrungspunkte"],
+                      ["spells","Zauberbuch"],
+                      ["kampf","Kampfhilfe"],
+                      ["zaubern","Zauberhilfe"],
+                      ["addZauber","Neue Zauber"],
+                      ["addItemOrSpez","Neue Gegenstände/Spezialfähigkeiten"],
+                      ["bonus","Boni"],
+                      ];
+
+div
+  each button in buttonlist
+    button(type="action" name=`act_${button[0]}`)=button[1]
+<input type='hidden' class='sheet-tabstoggle' name='attr_sheetTab'  value='character'  />
+

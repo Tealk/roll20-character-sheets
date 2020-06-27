@@ -21,14 +21,35 @@
         [LernbonusTalente,'f',[Klugheit,Intuition,'+',2,'/',131,'-',10,'/',0,'max',5,'min'],"LernBonus2"],
         [TragkraftStufe,'c',[Körperkraft,20,'/',4,'min'],"Lastenstufe1"],
         [TragkraftStufe,'f',[Körperkraft,71,'-',10,'/',0,'max'],"Lastenstufe2"],
-        [KampfTPValues,'f',[Körperkraft,Waffentalent,'+',2,'/',51,'-',10,'/',0,'max'],"Schadensbonus1"],
-        [KampfTPValues,'f',[WaffenSpez,51,'-',10,'/',0,'max'],"Schadensbonus2"],
-        [AtBonus,'f',[WaffenSpez,51,'-',10,'/',0,'max'],"Schadensbonus2"],
-        [PaBonus,'f',[WaffenSpez,51,'-',10,'/',0,'max'],"Schadensbonus2"],
-        [AUKosten,'c',[71,Waffentalent,'-',10,'/',0,'min',-3,'max'],"Ausdauer-Kostenreduktion"],
-        //[LernbonusMagie,'f',[Magiebegabung,Klugheit,'+',Intuition,'+',TalentMagiekunde,'+',TalentAstronomie,'+',5,'/'],"Lernbonus Magie"],
-        //[Rüstungsgewöhnung,'f',[TalentRüstungsgewöhnung,51,'-',10,'/',0,'max'],"Rüstungsgewöhnung1"],
-        //[Rüstungsgewöhnung,'r',[TalentRüstungsgewöhnung,60,'>',2,'*'],"Rüstungsgewöhnung2"],
+        [KampfTPValues,'f',[Körperkraft,[Waffentalent,'double'],'+',2,'/',51,'-',10,'/',0,'max'],"Schadensbonus1"],
+        [KampfTPValues,'f',[[WaffenSpez,'double'],51,'-',10,'/',0,'max'],"Schadensbonus2"],
+        [AtBonus,'f',[[WaffenSpez,'double'],51,'-',10,'/',0,'max'],"AtBonus"],
+        [PaBonus,'f',[[WaffenSpez,'double'],51,'-',10,'/',0,'max'],"PaBonus"],
+        [AUKosten,'c',[71,[Waffentalent,'double'],'-',10,'/',0,'min',-3,'max'],"Ausdauer-Kostenreduktion"],
+        [LernbonusMagie,'f',[Magiebegabung,Klugheit,'+',Intuition,'+',talent_Magiekunde,'+',talent_Astronomie,'+',5,'/'],"Lernbonus Magie"],
+        [Rüstungsgewöhnung,'f',[talent_Rüstungsgewöhnung,51,'-',10,'/',0,'max'],"Rüstungsgewöhnung1"],
+        [Rüstungsgewöhnung,'r',[talent_Rüstungsgewöhnung,60,'>',2,'*'],"Rüstungsgewöhnung2"],
+
+        [RegenerationNachtLebenspunkte,'=',[1,6,'w'],"Regeneration LP1"],
+        [RegenerationNachtLebenspunkte,'=',[KOBonus],"Regeneration LP2"],
+        [RegenerationNachtAusdauer,'=',[Ausdauer],"Regeneration Ausdauer1"],
+        [Regeneration1hAusdauer,'r',[Konstitution,5,'/',2,'*'],"Regeneration Ausdauer2"],
+        [RegenerationNachtEssenz,'r',[2,10,'w'],"Regeneration Essenz1"],
+        [RegenerationNachtEssenz,'r',[Magiebegabung,2,'/'],"Regeneration Essenz2"],
+        [Regeneration1hEssenz,'r',[20],"Regeneration Essenz3"],
+        [Regeneration1hPsiPunkte,'r',[30],"Regeneration Psi1"],
+        [talent_Tiere_heilen,'=',[talent_Abrichten,60,'>',10,'*'],"Talente"],
+        [talent_Klettern,'=',[talent_Akrobatik,59,'>',20,'*'],"Talente"],
+        [Rückzug,'=',[talent_Akrobatik,80,'>',5,'*'],"Talente"],
+        [talent_Krankheiten_heilen,'=',[talent_Alchemie,59,'>',10,'*'],"Talente"],
+        [talent_Pflanzenkunde,'=',[talent_Alchemie,59,'>',10,'*'],"Talente"],
+        [talent_Wunden_heilen,'=',[talent_Alchemie,59,'>',10,'*'],"Talente"],
+        [talent_Gifte_heilen,'=',[talent_Alchemie,59,'>',10,'*'],"Talente"],
+        [talent_Karten_zeichnen,'=',[talent_Bergbau,9,'>',15,'*'],"Talente","In Dungeons"],
+        [talent_Orientierung,'=',[talent_Bergbau,9,'>',15,'*'],"Talente","In Dungeons"],
+        [talent_Bestechen,'=',[talent_Charakter_erkennen,60,'>',20,'*'],"Talente"],
+        [talent_Klettern,'=',[talent_Akrobatik,59,'>',20,'*'],"Talente"],
+        [talent_Klettern,'=',[talent_Akrobatik,59,'>',20,'*'],"Talente"],
         ]
 
     //defaultboni= array of arrays: [desteny,text,name]
@@ -39,15 +60,20 @@ each boni,index in defaultBoniDB
     -var size=-1
     each i in boni[2]
         - var float=parseFloat(i)
-        if float
+        if float | float==0
           - text+=i+';'
         else if size%2==1
           - text+=i+';'
         else if i.length==2
-          - text+=`{${i[0][0]+i[1][0]}};`
+          if i[1]=="double"
+            - text+=`{{${i[0][0]}}};`
+          else
+            - text+=`{${i[0][0]+i[1][0]}};`
         else
           - text+=`{${i[0]+max[0]}};`
         -size+=1
     -text+=boni[1]+";"
+    if boni.length>4
+      -text+=boni[4]
     -defaultBoni.push([boni[0][0],text,boni[3]])
-    -bonusRows.push([`default_bonus_${index}`,boni[3],"","",[boni[0][0],text,"Regelwerk"]])
+    -bonusRows.push([`default_bonus_${index}`,boni[3],"","","",[boni[0][0],"Regelwerk",1,text,0]])

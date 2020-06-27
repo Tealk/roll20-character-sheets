@@ -23,7 +23,11 @@
 .sheet-pc.sheet-talents
   .sheet-flex
     +sectionheader("Talente").sheet-item
+      .sheet-flex.sheet-syncBottom
+        +generateAttributeArray(["aaT"], [filterTalentType], "Flexitems", ÜberblickFieldName)
+        +generateAttributeArray(["aal"], [filterTalentName], "Flexitems", ÜberblickFieldName)
       +generateAttributeArray(TalenteFieldCode, TalentList)
+      +generateAttributeArray(["ael"].concat(TalenteRepSectionFieldCode), Talente, "repeating",[nameField].concat(fieldCodeAdditions),["aan"].concat(fieldCodeDefaults))
       //-.sheet-flex
       //-  each talent in Talente
       //-    +sectionheader(talent[1]).sheet-item
@@ -38,7 +42,7 @@
       .sheet-flex.sheet-syncBottom
         +generateAttributeArray(KampfValuesFieldCode, KampfValues, "Flexitems")
         +generateAttributeArray(KampfTPValuesFieldCode, KampfTPValues, "Flexitems")
-        +generateAttributeArray(WaffentalentValuesFieldCode, WaffentalentValues, "Flexitems", WaffentalentFields, WaffentalentValuesFieldCode)
+        +generateAttributeArray(WaffentalentValuesFieldCode, WaffentalentFields, "Flexitems", ÜberblickFieldName)
       +generateAttributeArray(weaponFieldCode, [weaponSection], "repeating", weaponFields, weaponFieldCode)
     +sectionheader("Rüstung/Kleidung").sheet-item
       +generateAttributeArray(armorFieldCode, [armorSection], "repeating", armorFields, armorFieldCode)
@@ -49,14 +53,21 @@
   .sheet-flex
     +sectionheader("Anwenden").sheet-item.sheet-anwendbar
       //-TODO
-      span="Kommt demnächst"
+      span="Entfällt"
     +sectionheader("Eigene Exp(aus Abenteuern)").sheet-item
       +generateAttributeArray(userExpFieldCode, [userExpSection], "repeating", userExpFields, userExpFieldCode)
     +sectionheader("Automatische Exp").sheet-item
       +generateAttributeArray(expFieldCode, [expSection], "repeating", expFields, expFieldCode)
     +sectionheader("Steigern").sheet-item.sheet-steigerbar
-      //-TODO
-      span="Kommt demnächst"
+      .sheet-flex.sheet-syncBottom
+        +generateAttributeArray(["rrl"], [selectedField], "Flexitems", ÜberblickFieldName)
+        +generateAttributeArray(["rrn"], [steigerungswert], "Flexitems", ÜberblickFieldName)
+        +generateAttributeArray(["rr0"], [steigerungswurf], "Flexitems", ÜberblickFieldName)
+        +generateAttributeArray(["nnt"], [steigerungswurfRollWert], "Flexitems", ÜberblickFieldName)
+        +generateAttributeArray(["rr?"], [steigerunghinzufügen], "Flexitems", ÜberblickFieldName)
+        +generateAttributeArray(["ren"], [basisExpKosten], "Flexitems", ÜberblickFieldName)
+        +generateAttributeArray(["ren"], [reduzierteExpKosten], "Flexitems", ÜberblickFieldName)
+        +generateAttributeArray(["rnn"], [übrigeExp], "Flexitems", ÜberblickFieldName)
     +sectionheader("Ausgegebene Exp").sheet-item
       +generateAttributeArray(levelUpFieldCode, [levelUpSection], "repeating", levelUpFields, levelUpFieldCode)
 .sheet-pc.sheet-spells
@@ -68,9 +79,10 @@
 .sheet-pc.sheet-bonus
   .sheet-flex
     +sectionheader("Bonusliste").sheet-item
+      +generateAttributeArray(boniFieldCodeDefaults, bonusRows, "Table", boniFields, boniFieldCodeDefaults)
       +generateAttributeArray(boniFieldCode, [boniSection], "repeating", boniFields, boniFieldCode)
 .sheet-pc.sheet-kampf
-  //-TODO
+  //-TODO !!
   span="Kommt demnächst"
 .sheet-pc.sheet-zaubern
   //-TODO
@@ -79,5 +91,5 @@
   //-TODO
   span="Kommt demnächst"
 .sheet-pc.sheet-addItemOrSpez
-  //-TODO
+  //-TODO !!
   span="Kommt demnächst"

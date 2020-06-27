@@ -11,6 +11,26 @@ add12To7And34To8m.forEach(function (stat) {
         });
     });
 });
+add12To7And34To8m.forEach(function (stat) {
+    on(" change:"+stat+fieldCodeAdditions[10] , () => {
+        var sumFields = [stat+fieldCodeAdditions[10],Combobox];
+        var allFields = sumFields;
+        getAttrs(allFields, function(values) {
+            setAttrs({
+                [stat+show]: values[fields[0]]==Combobox
+            });
+        });
+    });
+});
+on("change:" + Combobox , () => {
+    var sumFields = add12To7And34To8m.map((value)=>value+fieldCodeAdditions[10]);
+    var allFields = sumFields;
+    getAttrs(allFields, function(values) {
+        setAttrs({
+            [stat+show]: values[fields[0]]==Combobox
+        });
+    });
+});
 add1234To7.forEach(function (stat) {
     on("change:" + stat+fieldCodeAdditions[0]+" change:"+stat+fieldCodeAdditions[1]+" change:"+stat+fieldCodeAdditions[2]+" change:"+stat+fieldCodeAdditions[3] , () => {
         var sumFields = [stat+fieldCodeAdditions[0],stat+fieldCodeAdditions[1],stat+fieldCodeAdditions[2],stat+fieldCodeAdditions[3]];
@@ -114,11 +134,38 @@ on("change:repeating_"+levelUpSection + " remove:repeating_"+levelUpSection, () 
 });
 
 on("change:repeating_"+boniSection + " remove:repeating_"+boniSection, () => {
-    fields = ["repeating_"+levelUpSection+nameingField,
-              "repeating_"+levelUpSection+boniActive,
-              "repeating_"+levelUpSection+boniText];
+    fields = ["repeating_"+boniSection+nameingField,
+              "repeating_"+boniSection+boniActive,
+              "repeating_"+boniSection+boniText];
     getAttrs(fields, function(values) {
-        evalBonusText("repeating_"+levelUpSection+boniValue,values[fields[2]],values[fields[1]],values[fields[0]])
+        evalBonusText("repeating_"+boniSection+boniValue,values[fields[2]],values[fields[1]],values[fields[0]])
+    });
+});
+bonusRows.forEach(function (stat) {
+    on("change:"+stat + boniActive, () => {
+        fields = [stat + nameingField];
+        getAttrs(fields, function(values) {
+            calcModAutoValue(values[fields[0]])
+        });
+    });
+});
+usingButtons.forEach(function (stat) {
+    on("clicked:"+stat + usingButtonAddition, () => {
+        addToRepItem(expSection, nameingField, expNumber, stat, 1)
+    });
+});
+
+on('change:'+filterTalentType+' change:'+filterTalentName, () => {
+    var attrArray = add12To7And34To8m.map(talent => talent+talenttype);
+    attrArray.push(filterTalentType);
+    attrArray.push(filterTalentName);
+    getAttrs(attrArray, v => {
+        //getSectionFields(EigeneTalente, add12To7And34To8m, [nameingField, boniValue, boniActive], (allValues) => {
+        var result = {};
+        for (talent of add12To7And34To8m) {
+            result[`${talent}${show}`] = (talent.search(v[filterTalentName]) != -1 && ( v[filterTalentType]==0 || v[filterTalentType]==v[talent+talenttype] )) ? 1 : 0;
+        }
+        setAttrs(result);
     });
 });
 
@@ -127,3 +174,11 @@ on("change:repeating_"+boniSection + " remove:repeating_"+boniSection, () => {
 //        calculateChangesForAttribute(stat);
 //    });
 //});
+
+buttonlist.forEach(button => {
+    on(`clicked:${button}`, function() {
+        setAttrs({
+            sheetTab: button
+        });
+    });
+});

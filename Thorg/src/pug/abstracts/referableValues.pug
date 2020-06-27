@@ -40,6 +40,8 @@
     //                  'S' -> Steigerbar
     //                  'U' -> Steigerbar+Nutzbar
     //                  'F' -> Steigerbar+Nutzbar+EPgenerator
+    //                  '?' -> spezieller aktionsbutton
+    //                  '0' -> rolle 'attr_name_makro'
     //                  'E' -> EPgenerator
     //                  'A' -> Ausführen(Roll)
     //                  'N' -> Wiederherstellen/Regenerieren(Roll) Nacht
@@ -104,7 +106,7 @@
     const LernbonusTalente = ["lernbonustalent","Lernbonus(Talente)","LernbonusTalente"];
     const LernbonusMagie = ["lernbonusmagie","Lernbonus(Magie)","LernbonusMagie"];
     const KOBonus = ["ko-bonus","KO Bonus","KOBonus"];
-    const Rüstungsgewöhnung = ["rüstungsgewöhnung","Rüstungsgewöhnung","Rüstungsgewöhnung"];
+    const Rüstungsgewöhnung = ["rüstungsmalus","Rüstungsgewöhnung","Rüstungsgewöhnung"];
     const TragkraftStufe = ["tragkraftstufe","Tragkraftstufe","TragkraftStufe"];
     const bonusValues = [GEBonus,
                          LernbonusAllgemein,
@@ -179,27 +181,14 @@
 
     const Waffentalent = ["waffentalent","Waffentalent","Waffentalent"];
     const WaffenSpez = ["waffenspezialisierung","Waffenspezialisierung","WaffenSpez"];
-    const WaffentalentValues = [Waffentalent,WaffenSpez];
-    const WaffentalentFields = WaffentalentValues;
-    const WaffentalentValuesFieldCode = ['rnl','rnl'];
+    const WaffentalentFields = [Waffentalent,WaffenSpez];
+    const WaffentalentValuesFieldCode = ['rnl'];
 
-    const NahKampfTalente = ["nahkampftalente","Nahkampftalente","NahKampfTalente","F"];
-    const FernKampfTalente = ["fernkampftalente","Fernkampftalente","FernKampfTalente","F"];
-    const KampfTalente = ["kampftalente","Spezielle Kampftalente","KampfTalente","F"];
-    const SozialeTalente = ["sozialetalente","Sozialtalente","SozialeTalente","F"];
-    const HandwerksTalente = ["handwerkstalente","Handwerkstalente","HandwerksTalente","F"];
-    const BerufeTalente = ["berufetalente","Berufstalente","BerufeTalente","F"];
-    const SprachenTalente = ["sprachentalente","Sprachtalente","SprachenTalente","F"];
-    const AndereTalente = ["anderetalente","Andere Talente","AndereTalente","F"];
-    const Talente = [NahKampfTalente,
-                     FernKampfTalente,
-                     KampfTalente,
-                     SozialeTalente,
-                     HandwerksTalente,
-                     BerufeTalente,
-                     SprachenTalente,
-                     AndereTalente];
     const TalenteFieldCode = [1,2,3,4,0,0,7,8,9,10,11];
+
+    const EigeneTalente = ["eigenetalente","Eigene Talente","EigeneTalente","F"];
+    const Talente = [EigeneTalente];
+    const TalenteRepSectionFieldCode = [0,0,0,0,0,0,"arn","arn",9,10,11];
 
     const ExpSummary = ["exp","Erfahrungspunkte","ExpSummary"];
     const ExpSummarySum = ["_max","Insgesamt","ExpSummarySum"];
@@ -215,15 +204,6 @@
     const EquipSummaryField = [EquipSummarySum,EquipSummaryLevel,EquipSummaryMalus]
     const EquipSummaryFieldCode = ['ann','enn','ann'];
 
-    const allRegularListsButTalents = attributes.concat(calculatedValues,
-                                                 bonusValues,
-                                                 dynamicValues,
-                                                 regNachtValues,
-                                                 reg1hValues,
-                                                 ManuellValues,
-                                                 KampfValues,
-                                                 KampfTPValues);
-
     var add12To7And34To8m=[]
     var add1234To7=[]
     var add134Times5To7=[]
@@ -232,3 +212,22 @@
     var add14To7m=[]
     var add34Times5To7=[]
     var add34To7=[]
+
+    // add _EP to these
+    const levelUpButtonAddition=["_levelup","Steigern","levelUpButtonAddition"];
+    var levelUpButtons=[]
+    const usingButtonAddition=["_exp","Angewendet","usingButtonAddition"];
+    var usingButtons=[]
+
+    var relevantValues=[EquipSummary,
+                        EquipSummarySum,
+                        EquipSummaryLevel,
+                        EquipSummaryMalus,
+                        ExpSummary,
+                        ExpSummarySum,
+                        ExpSummaryInvested,
+                        ExpSummaryOpen,
+                        EigeneTalente,
+                        Waffentalent,
+                        WaffenSpez,
+                        ]

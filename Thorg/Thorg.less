@@ -1,4 +1,5 @@
 @import "src/less/abstracts/mixins.less";
+@import "src/less/abstracts/rolltemplates";
 
 
 .sheet-text-input {
@@ -66,4 +67,18 @@
         padding      : 0px;
         font-size    : 15px;
     }
+}
+
+/* show the selected tab */
+.sheet-tabstoggle:not([value="character"]) ~ div.sheet-character,
+.sheet-tabstoggle:not([value="talents"]) ~ div.sheet-talents,
+.sheet-tabstoggle:not([value="equip"]) ~ div.sheet-equip,
+.sheet-tabstoggle:not([value="exp"]) ~ div.sheet-exp,
+.sheet-tabstoggle:not([value="spells"]) ~ div.sheet-spells,
+.sheet-tabstoggle:not([value="kampf"]) ~ div.sheet-kampf,
+.sheet-tabstoggle:not([value="zaubern"]) ~ div.sheet-zaubern,
+.sheet-tabstoggle:not([value="addZauber"]) ~ div.sheet-addZauber,
+.sheet-tabstoggle:not([value="addItemOrSpez"]) ~ div.sheet-addItemOrSpez,
+.sheet-tabstoggle:not([value="bonus"]) ~ div.sheet-bonus{
+    display: none;
 }

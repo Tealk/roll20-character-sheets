@@ -69,8 +69,251 @@ input.sheet-toggle-show:not(:checked) + span + div.sheet-body {
 .sheet-showmode:checked ~ * .sheet-display:not(.sheet-show) {
   display: none;
 }
-input.sheet-toggle-show[value="0"] ~ div.sheet-row-hider {
+input.sheet-toggle-show[value=0] ~ div.sheet-row-hider {
   display: none;
+}
+/* roll template */
+/* Roll templates */
+.sheet-rolltemplate-default,
+.sheet-rolltemplate-attack,
+.sheet-rolltemplate-skill,
+.sheet-rolltemplate-check {
+  margin-left: -41px;
+  width: 292px;
+  color: #FFF;
+  font-family: "Arial", sans-serif;
+}
+.sheet-rolltemplate-default div,
+.sheet-rolltemplate-attack div,
+.sheet-rolltemplate-skill div,
+.sheet-rolltemplate-check div {
+  box-sizing: border-box;
+}
+.withoutavatars .sheet-rolltemplate-default,
+.withoutavatars .sheet-rolltemplate-attack,
+.withoutavatars .sheet-rolltemplate-skill,
+.withoutavatars .sheet-rolltemplate-check {
+  margin-left: -11px;
+}
+.sheet-rolltemplate-default .sheet-container .inlinerollresult,
+.sheet-rolltemplate-attack .sheet-container .inlinerollresult,
+.sheet-rolltemplate-skill .sheet-container .inlinerollresult,
+.sheet-rolltemplate-check .sheet-container .inlinerollresult {
+  padding: 0;
+  font-family: inherit;
+  background: transparent;
+  border-color: transparent;
+  border: none;
+}
+.sheet-rolltemplate-default .sheet-container,
+.sheet-rolltemplate-attack .sheet-container,
+.sheet-rolltemplate-skill .sheet-container,
+.sheet-rolltemplate-check .sheet-container {
+  min-height: 175px;
+  position: relative;
+  padding: 18px 20px;
+  clip-path: polygon(0 7px, 7px 0, 173px 0, 177px 3px, 281px 3px, 289px 11px, 289px 82px, 100% 87px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 22px 100%, 0 calc(100% - 22px));
+}
+.sheet-rolltemplate-default .sheet-header,
+.sheet-rolltemplate-attack .sheet-header,
+.sheet-rolltemplate-skill .sheet-header,
+.sheet-rolltemplate-check .sheet-header {
+  width: 198px;
+}
+.sheet-rolltemplate-default .sheet-header .sheet-name,
+.sheet-rolltemplate-attack .sheet-header .sheet-name,
+.sheet-rolltemplate-skill .sheet-header .sheet-name,
+.sheet-rolltemplate-check .sheet-header .sheet-name {
+  margin-bottom: 12px;
+  font-size: 13px;
+  line-height: 1;
+  height: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: "Times New Roman", serif;
+  font-weight: bold;
+}
+.sheet-rolltemplate-default .sheet-header .sheet-title,
+.sheet-rolltemplate-attack .sheet-header .sheet-title,
+.sheet-rolltemplate-skill .sheet-header .sheet-title,
+.sheet-rolltemplate-check .sheet-header .sheet-title {
+  font-size: 14px;
+  height: 32px;
+  line-height: 16px;
+  overflow: hidden;
+  font-weight: bold;
+  margin-bottom: 24px;
+}
+.sheet-rolltemplate-default .sheet-content,
+.sheet-rolltemplate-attack .sheet-content,
+.sheet-rolltemplate-skill .sheet-content,
+.sheet-rolltemplate-check .sheet-content {
+  position: relative;
+}
+.sheet-rolltemplate-default .sheet-rolls .inlinerollresult,
+.sheet-rolltemplate-attack .sheet-rolls .inlinerollresult,
+.sheet-rolltemplate-skill .sheet-rolls .inlinerollresult,
+.sheet-rolltemplate-check .sheet-rolls .inlinerollresult {
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 29px;
+  white-space: nowrap;
+}
+.sheet-rolltemplate-default .sheet-rolls,
+.sheet-rolltemplate-attack .sheet-rolls,
+.sheet-rolltemplate-skill .sheet-rolls,
+.sheet-rolltemplate-check .sheet-rolls {
+  height: 35px;
+  display: flex;
+  align-items: start;
+}
+.sheet-rolltemplate-default .sheet-rollname,
+.sheet-rolltemplate-attack .sheet-rollname,
+.sheet-rolltemplate-skill .sheet-rollname,
+.sheet-rolltemplate-check .sheet-rollname {
+  font-size: 12px;
+  line-height: 1;
+}
+.sheet-rolltemplate-default a,
+.sheet-rolltemplate-attack a,
+.sheet-rolltemplate-skill a,
+.sheet-rolltemplate-check a {
+  color: inherit;
+}
+.sheet-rolltemplate-default a:hover,
+.sheet-rolltemplate-attack a:hover,
+.sheet-rolltemplate-skill a:hover,
+.sheet-rolltemplate-check a:hover {
+  color: red;
+}
+.sheet-rolltemplate-default a[href^="~"],
+.sheet-rolltemplate-attack a[href^="~"],
+.sheet-rolltemplate-skill a[href^="~"],
+.sheet-rolltemplate-check a[href^="~"] {
+  padding: 0;
+  background: transparent;
+  border: none;
+  line-height: 1.4;
+}
+.sheet-rolltemplate-default .sheet-fumble,
+.sheet-rolltemplate-attack .sheet-fumble,
+.sheet-rolltemplate-skill .sheet-fumble,
+.sheet-rolltemplate-check .sheet-fumble {
+  color: #DC143C;
+}
+.sheet-rolltemplate-default .sheet-crit,
+.sheet-rolltemplate-attack .sheet-crit,
+.sheet-rolltemplate-skill .sheet-crit,
+.sheet-rolltemplate-check .sheet-crit {
+  color: #4ab312;
+}
+.sheet-rolltemplate-default .sheet-positive,
+.sheet-rolltemplate-attack .sheet-positive,
+.sheet-rolltemplate-skill .sheet-positive,
+.sheet-rolltemplate-check .sheet-positive {
+  color: #aeff82;
+}
+.sheet-rolltemplate-default .sheet-negative,
+.sheet-rolltemplate-attack .sheet-negative,
+.sheet-rolltemplate-skill .sheet-negative,
+.sheet-rolltemplate-check .sheet-negative {
+  color: #fF8080;
+}
+.sheet-rolltemplate-default .sheet-container {
+  background: url("https://raw.githubusercontent.com/roll20/roll20-character-sheets/master/Stars_Without_Number_Revised/Assets/rt-top-black.png") top no-repeat, url("https://raw.githubusercontent.com/roll20/roll20-character-sheets/master/Stars_Without_Number_Revised/Assets/rt-bottom.png") bottom no-repeat, #0F0F0F;
+}
+.sheet-rolltemplate-default .sheet-name {
+  color: #bababa;
+}
+.sheet-rolltemplate-default .sheet-rollname {
+  margin-right: auto;
+}
+.sheet-rolltemplate-default .sheet-desc,
+.sheet-rolltemplate-default .sheet-buttons {
+  font-size: 12px;
+  line-height: 1.4;
+}
+.sheet-rolltemplate-default .sheet-info {
+  font-style: italic;
+  font-size: 10px;
+  line-height: 1;
+  margin: -10px 0 5px;
+}
+.sheet-rolltemplate-default .sheet-info .inlinerollresult {
+  font-size: 1em;
+  font-weight: normal;
+}
+.sheet-rolltemplate-attack .sheet-container {
+  background: url("https://raw.githubusercontent.com/roll20/roll20-character-sheets/master/Stars_Without_Number_Revised/Assets/rt-top-purple.png") top no-repeat, url("https://raw.githubusercontent.com/roll20/roll20-character-sheets/master/Stars_Without_Number_Revised/Assets/rt-bottom.png") bottom no-repeat, #0F0F0F;
+}
+.sheet-rolltemplate-attack .sheet-name {
+  color: #b291ec;
+}
+.sheet-rolltemplate-attack .sheet-title .inlinerollresult {
+  font-size: 1em;
+  pointer-events: none;
+}
+.sheet-rolltemplate-attack .sheet-damage {
+  margin-left: auto;
+}
+.sheet-rolltemplate-attack .sheet-roll {
+  margin-left: 10px;
+}
+.sheet-rolltemplate-attack .sheet-rolls:not(:first-of-type) {
+  margin-top: 5px;
+}
+.sheet-rolltemplate-attack .sheet-shock {
+  font-style: italic;
+  margin-top: 4px;
+  font-size: 12px;
+}
+.sheet-rolltemplate-attack .sheet-info {
+  font-style: italic;
+  font-size: 10px;
+}
+.sheet-rolltemplate-attack .sheet-info > span:first-child {
+  margin-right: 10px;
+}
+.sheet-rolltemplate-attack .sheet-info .inlinerollresult {
+  font-weight: normal;
+  font-size: 1em;
+  margin-left: 2px;
+}
+.sheet-rolltemplate-attack .sheet-desc {
+  font-size: 12px;
+  line-height: 1.4;
+}
+.sheet-rolltemplate-skill .sheet-container {
+  background: url("https://raw.githubusercontent.com/roll20/roll20-character-sheets/master/Stars_Without_Number_Revised/Assets/rt-top-blue.png") top no-repeat, url("https://raw.githubusercontent.com/roll20/roll20-character-sheets/master/Stars_Without_Number_Revised/Assets/rt-bottom.png") bottom no-repeat, #0F0F0F;
+}
+.sheet-rolltemplate-skill .sheet-name {
+  color: #80b0ff;
+}
+.sheet-rolltemplate-skill .sheet-title .sheet-italic {
+  font-style: italic;
+}
+.sheet-rolltemplate-skill .sheet-title .inlinerollresult {
+  font-size: 1em;
+  pointer-events: none;
+}
+.sheet-rolltemplate-skill .sheet-rollname {
+  margin-right: auto;
+}
+.sheet-rolltemplate-check .sheet-container.sheet-success {
+  background: url("https://raw.githubusercontent.com/roll20/roll20-character-sheets/master/Stars_Without_Number_Revised/Assets/rt-top-green.png") top no-repeat, url("https://raw.githubusercontent.com/roll20/roll20-character-sheets/master/Stars_Without_Number_Revised/Assets/rt-bottom.png") bottom no-repeat, #0F0F0F;
+}
+.sheet-rolltemplate-check .sheet-container.sheet-success .sheet-name {
+  color: #4ab312;
+}
+.sheet-rolltemplate-check .sheet-container.sheet-failure {
+  background: url("https://raw.githubusercontent.com/roll20/roll20-character-sheets/master/Stars_Without_Number_Revised/Assets/rt-top-red.png") top no-repeat, url("https://raw.githubusercontent.com/roll20/roll20-character-sheets/master/Stars_Without_Number_Revised/Assets/rt-bottom.png") bottom no-repeat, #0F0F0F;
+}
+.sheet-rolltemplate-check .sheet-container.sheet-failure .sheet-name {
+  color: #DC143C;
+}
+.sheet-rolltemplate-check .sheet-vs {
+  margin: 0 10px;
 }
 .sheet-text-input {
   color: #666;
@@ -82,10 +325,6 @@ input.sheet-toggle-show[value="0"] ~ div.sheet-row-hider {
   text-align: inherit;
   line-height: 14px;
   border-top: 1px solid #AAA;
-}
-.sheet-text-input .sheet-label input[type="checkbox"] {
-  height: 14px;
-  margin: 0 3px 0 0;
 }
 .sheet-container {
   width: 870px;
@@ -133,4 +372,17 @@ input.sheet-toggle-show[value="0"] ~ div.sheet-row-hider {
   font-weight: normal;
   padding: 0px;
   font-size: 15px;
+}
+/* show the selected tab */
+.sheet-tabstoggle:not([value="character"]) ~ div.sheet-character,
+.sheet-tabstoggle:not([value="talents"]) ~ div.sheet-talents,
+.sheet-tabstoggle:not([value="equip"]) ~ div.sheet-equip,
+.sheet-tabstoggle:not([value="exp"]) ~ div.sheet-exp,
+.sheet-tabstoggle:not([value="spells"]) ~ div.sheet-spells,
+.sheet-tabstoggle:not([value="kampf"]) ~ div.sheet-kampf,
+.sheet-tabstoggle:not([value="zaubern"]) ~ div.sheet-zaubern,
+.sheet-tabstoggle:not([value="addZauber"]) ~ div.sheet-addZauber,
+.sheet-tabstoggle:not([value="addItemOrSpez"]) ~ div.sheet-addItemOrSpez,
+.sheet-tabstoggle:not([value="bonus"]) ~ div.sheet-bonus {
+  display: none;
 }
