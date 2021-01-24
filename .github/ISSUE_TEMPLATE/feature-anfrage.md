@@ -2,7 +2,7 @@
 name: Feature-Anfrage
 about: Eine Idee für dieses Projekt vorschlagen
 title: ''
-labels: ''
+labels: feature request
 assignees: ''
 
 ---

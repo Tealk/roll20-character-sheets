@@ -2,7 +2,7 @@
 name: Fehlerbericht
 about: Erstellen Sie einen Bericht, der uns hilft, uns zu verbessern
 title: ''
-labels: ''
+labels: bug
 assignees: ''
 
 ---
